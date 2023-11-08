@@ -7,7 +7,7 @@ public class Bullet : MonoBehaviour
 {
     private void Awake()
     {
-        Invoke(nameof(DestroyGameObject), 2f);
+        Invoke(nameof(DestroyGameObject), 2f);  
     }
 
     private void DestroyGameObject()

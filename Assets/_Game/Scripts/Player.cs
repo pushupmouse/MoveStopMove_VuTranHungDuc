@@ -14,6 +14,8 @@ public class Player : Character
     private Vector3 moveVector;
     private Vector3 direction;
 
+    private float timer = 0f;
+    private bool canAttack = true;
 
     private void Awake()
     {
@@ -25,7 +27,7 @@ public class Player : Character
     private void FixedUpdate()
     {
         MoveWithJoystick();
-        PrepareAttack(moveVector);
+        //PrepareAttack(moveVector);
     }
 
     private void MoveWithJoystick()
@@ -39,11 +41,26 @@ public class Player : Character
             direction = Vector3.RotateTowards(transform.forward, moveVector, rotateSpeed * Time.fixedDeltaTime, 0f);
             transform.rotation = Quaternion.LookRotation(direction);
 
-            //animation run
+            timer = 0f;
+            canAttack = true;
+
+            ChangeAnimation("Run");
         }
         else if (joystick.Horizontal == 0 && joystick.Vertical == 0)
         {
-            //animation idle
+            timer += Time.fixedDeltaTime;
+            ChangeAnimation("Idle");
+            if (timer > 1f)
+            {
+                if (canAttack)
+                {
+                    ChangeAnimation("Attack");
+                    Invoke(nameof(ExecuteAttack), 0.25f);
+                    timer = 0f;
+                    canAttack = false;
+                }
+                
+            }
         }
 
         rb.MovePosition(rb.position + moveVector);
@@ -54,7 +71,8 @@ public class Player : Character
         base.ExecuteAttack();
         Debug.Log("shoot");
         Rigidbody prefab = Instantiate(bullet, transform.position, transform.rotation);
-        prefab.velocity = transform.forward * 5f;
+        prefab.velocity = transform.forward * 20f;
+       
     }
 
     
