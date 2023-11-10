@@ -39,9 +39,21 @@ public class Character : MonoBehaviour
     //}
 
 
-    public virtual void ExecuteAttack()
+    public virtual void ExecuteAttack(Transform throwPoint, Vector3 direction)
     {
-        
+
+        GameObject bulletObj = ObjectPool.instance.GetPooledObject();
+
+        if (bulletObj != null)
+        {
+            Vector3 startPos = throwPoint.position;
+            bulletObj.transform.position = startPos;
+            bulletObj.transform.rotation = transform.rotation;
+            bulletObj.SetActive(true);
+
+            Bullet bullet = bulletObj.GetComponent<Bullet>();
+            bullet.rb.velocity = direction * 5f;
+        }
     }
 
     protected void ChangeAnimation(string animation)
@@ -53,7 +65,6 @@ public class Character : MonoBehaviour
                 animator.ResetTrigger(currentAnimation);
             }
             
-
             currentAnimation = animation;
 
             animator.SetTrigger(currentAnimation);

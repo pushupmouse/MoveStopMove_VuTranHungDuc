@@ -1,17 +1,33 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEditor;
 using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
+    [SerializeField] public Rigidbody rb;
+
     private void Awake()
     {
-        Invoke(nameof(DestroyGameObject), 2f);  
+
+        
     }
 
-    private void DestroyGameObject()
+    private void FixedUpdate()
     {
-        Destroy(gameObject);
+    }
+
+    public void DestroyGameObject()
+    {
+        gameObject.SetActive(false);
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.layer == 8)
+        {
+            gameObject.SetActive(false);
+        }
     }
 }

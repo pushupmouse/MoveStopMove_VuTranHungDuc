@@ -7,15 +7,18 @@ public class Player : Character
 {
     [SerializeField] private float moveSpeed;
     [SerializeField] private float rotateSpeed;
-    [SerializeField] private Rigidbody bullet;
+    [SerializeField] private Transform throwPoint;
+    [SerializeField] private LayerMask layerMask;
 
     private FloatingJoystick joystick;
     private Rigidbody rb;
     private Vector3 moveVector;
     private Vector3 direction;
-
     private float timer = 0f;
-    private bool canAttack = true;
+    private bool canAttack = false;
+    private float attackRange = 5f;
+    Collider[] enemiesInRange;
+    GameObject target;
 
     private void Awake()
     {
@@ -27,7 +30,7 @@ public class Player : Character
     private void FixedUpdate()
     {
         MoveWithJoystick();
-        //PrepareAttack(moveVector);
+        FindTarget();
     }
 
     private void MoveWithJoystick()
@@ -55,26 +58,33 @@ public class Player : Character
                 if (canAttack)
                 {
                     ChangeAnimation("Attack");
-                    Invoke(nameof(ExecuteAttack), 0.25f);
+                    ExecuteAttack(throwPoint, direction);
                     timer = 0f;
                     canAttack = false;
-                }
-                
+                }   
             }
         }
 
         rb.MovePosition(rb.position + moveVector);
     }
 
-    public override void ExecuteAttack()
+    private void FindTarget()
     {
-        base.ExecuteAttack();
-        Debug.Log("shoot");
-        Rigidbody prefab = Instantiate(bullet, transform.position, transform.rotation);
-        prefab.velocity = transform.forward * 20f;
-       
+        int maxTargets = 10;
+        enemiesInRange = new Collider[maxTargets]; 
+
+        int numEnemies = Physics.OverlapSphereNonAlloc(transform.position, attackRange, enemiesInRange, layerMask);
+        for (int i = 0; i < numEnemies; i++)
+        {
+            target = enemiesInRange[i].gameObject;
+        }
     }
 
-    
+    public override void ExecuteAttack(Transform throwPoint, Vector3 direction)
+    {
+        base.ExecuteAttack(throwPoint, direction);
+    }
+
+
 
 }
