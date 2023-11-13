@@ -12,6 +12,7 @@ public class Player : Character
 
     private FloatingJoystick joystick;
     private Rigidbody rb;
+    Collider my_collider;
     private Vector3 moveVector;
     private Vector3 direction;
     private float timer = 0f;
@@ -24,6 +25,7 @@ public class Player : Character
     {
         joystick = FindObjectOfType<FloatingJoystick>();
         rb = GetComponent<Rigidbody>();
+        my_collider = GetComponent<Collider>();
 
     }
 
@@ -46,7 +48,7 @@ public class Player : Character
 
             timer = 0f;
             canAttack = true;
-
+            ShowWeapon();
             ChangeAnimation("Run");
         }
         else if (joystick.Horizontal == 0 && joystick.Vertical == 0)
@@ -55,10 +57,11 @@ public class Player : Character
             ChangeAnimation("Idle");
             if (timer > 1f)
             {
-                if (canAttack)
+                if (canAttack && target != null)
                 {
                     ChangeAnimation("Attack");
-                    ExecuteAttack(throwPoint, direction);
+                    transform.LookAt(target.transform.position);
+                    ExecuteAttack(throwPoint, (target.transform.position - transform.position).normalized);
                     timer = 0f;
                     canAttack = false;
                 }   
@@ -74,9 +77,21 @@ public class Player : Character
         enemiesInRange = new Collider[maxTargets]; 
 
         int numEnemies = Physics.OverlapSphereNonAlloc(transform.position, attackRange, enemiesInRange, layerMask);
+        if(numEnemies <= 0)
+        {
+            return;
+        }
+
         for (int i = 0; i < numEnemies; i++)
         {
-            target = enemiesInRange[i].gameObject;
+            if (enemiesInRange[i] != my_collider)
+            {
+                target = enemiesInRange[i].gameObject;
+            }
+            else
+            {
+                target = null;
+            }
         }
     }
 

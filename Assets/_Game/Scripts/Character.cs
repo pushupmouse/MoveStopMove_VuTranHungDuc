@@ -5,6 +5,7 @@ using UnityEngine;
 public class Character : MonoBehaviour
 {
     [SerializeField] private Animator animator;
+    [SerializeField] private GameObject holdWeapon;
 
     //private float timer = 0f;
     //private bool canAttack = true;
@@ -46,14 +47,26 @@ public class Character : MonoBehaviour
 
         if (bulletObj != null)
         {
+            HideWeapon();
+            
             Vector3 startPos = throwPoint.position;
             bulletObj.transform.position = startPos;
-            bulletObj.transform.rotation = transform.rotation;
-            bulletObj.SetActive(true);
 
             Bullet bullet = bulletObj.GetComponent<Bullet>();
-            bullet.rb.velocity = direction * 5f;
+            bullet.attacker = this.gameObject;
+            bullet.Activate(direction);
+            //bullet.rb.velocity = direction * 5f
         }
+    }
+
+    protected void HideWeapon()
+    {
+        holdWeapon.SetActive(false);
+    }
+
+    protected void ShowWeapon()
+    {
+        holdWeapon.SetActive(true);
     }
 
     protected void ChangeAnimation(string animation)
