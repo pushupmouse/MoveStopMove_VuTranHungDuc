@@ -2,17 +2,27 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PatrolState : MonoBehaviour
+public class PatrolState : IState
 {
-    // Start is called before the first frame update
-    void Start()
+    public void OnEnter(Bot bot)
     {
-        
+        Debug.Log("PATROL");
+
     }
 
-    // Update is called once per frame
-    void Update()
+    public void OnExecute(Bot bot)
     {
-        
+        //moving around
+        Debug.Log("MOVING AROUND");
+
+        if(bot.Target != null)
+        {
+            Debug.Log("FOUND ENEMY AFTER PATROL");
+            bot.ChangeState(new IdleState());
+        }
+    }
+
+    public void OnExit(Bot bot)
+    {
     }
 }

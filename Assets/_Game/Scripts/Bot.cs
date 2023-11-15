@@ -4,8 +4,35 @@ using UnityEngine;
 
 public class Bot : Character
 {
-    public void Test()
+    private IState currentState;
+
+    private void Awake()
     {
-        Debug.Log("IM GONNA DIE");
+        ChangeState(new IdleState());
+    }
+
+    private void FixedUpdate()
+    {
+        if (currentState != null)
+        {
+            currentState.OnExecute(this);
+        }
+
+        FindTarget();
+    }
+
+    public void ChangeState(IState newState)
+    {
+        if (currentState != null)
+        {
+            currentState.OnExit(this);
+        }
+
+        currentState = newState;
+
+        if (currentState != null)
+        {
+            currentState.OnEnter(this);
+        }
     }
 }

@@ -2,17 +2,28 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AttackState : MonoBehaviour
+public class AttackState : IState
 {
-    // Start is called before the first frame update
-    void Start()
+    public void OnEnter(Bot bot)
     {
-        
+        Debug.Log("ATTACK");
+        //stand and fire attack
     }
 
-    // Update is called once per frame
-    void Update()
+    public void OnExecute(Bot bot)
     {
-        
+        if(bot.Target != null)
+        {
+            Debug.Log("ATTACKING THE TARGET");
+        }
+        else
+        {
+            Debug.Log("TARGET ESCAPED");
+            bot.ChangeState(new IdleState());
+        }
+    }
+
+    public void OnExit(Bot bot)
+    {
     }
 }

@@ -19,8 +19,11 @@ public class Character : MonoBehaviour
     protected bool canAttack = false;
     protected float attackRange = 5f;
     protected Collider[] enemiesInRange;
-    protected GameObject target;
     protected string currentAnimation;
+    protected GameObject target;
+
+    public GameObject Target => target;
+
 
     private void Awake()
     {
@@ -38,7 +41,7 @@ public class Character : MonoBehaviour
         ChangeAnimation("Run");
     }
 
-    protected void Stopping()
+    protected void StopMoving()
     {
         timer += Time.fixedDeltaTime;
         ChangeAnimation("Idle");
@@ -66,6 +69,7 @@ public class Character : MonoBehaviour
         int numEnemies = Physics.OverlapSphereNonAlloc(transform.position, attackRange, enemiesInRange, layerMask);
         if (numEnemies <= 0)
         {
+            target = null;
             return;
         }
 
@@ -74,10 +78,6 @@ public class Character : MonoBehaviour
             if (enemiesInRange[i] != my_collider)
             {
                 target = enemiesInRange[i].gameObject;
-            }
-            else
-            {
-                target = null;
             }
         }
     }
@@ -97,7 +97,6 @@ public class Character : MonoBehaviour
             Bullet bullet = bulletObj.GetComponent<Bullet>();
             bullet.attacker = this.gameObject;
             bullet.Activate(direction);
-            //bullet.rb.velocity = direction * 5f
         }
     }
 

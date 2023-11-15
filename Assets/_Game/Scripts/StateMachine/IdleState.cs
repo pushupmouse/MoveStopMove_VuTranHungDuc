@@ -1,18 +1,33 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Playables;
 
-public class IdleState : MonoBehaviour
+public class IdleState : IState
 {
-    // Start is called before the first frame update
-    void Start()
+    public void OnEnter(Bot bot)
     {
-        
+        Debug.Log("IDLE");
     }
 
-    // Update is called once per frame
-    void Update()
+    public void OnExecute(Bot bot)
     {
-        
+        if (bot.Target != null)
+        {
+            Debug.Log("FOUND ONE");
+
+            bot.ChangeState(new AttackState());
+
+        }
+        else
+        {
+            Debug.Log("No enemies found");
+
+            bot.ChangeState(new PatrolState());
+        }
+    }
+
+    public void OnExit(Bot bot)
+    {
     }
 }

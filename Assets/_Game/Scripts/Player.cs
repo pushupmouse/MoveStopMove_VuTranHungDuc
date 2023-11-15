@@ -23,7 +23,6 @@ public class Player : Character
 
     private void MoveWithJoystick()
     {
-
         moveVector = Vector3.zero;
         moveVector.x = joystick.Horizontal * moveSpeed * Time.fixedDeltaTime;
         moveVector.z = joystick.Vertical * moveSpeed * Time.fixedDeltaTime;
@@ -34,7 +33,7 @@ public class Player : Character
         }
         else if (joystick.Horizontal == 0 && joystick.Vertical == 0)
         {
-            Stopping();
+            StopMoving();
         }
 
         rb.MovePosition(rb.position + moveVector);
