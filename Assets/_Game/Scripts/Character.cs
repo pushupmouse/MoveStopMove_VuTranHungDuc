@@ -8,29 +8,29 @@ public class Character : MonoBehaviour
     [SerializeField] protected float moveSpeed;
     [SerializeField] protected float rotateSpeed;
     [SerializeField] private Animator animator;
-    [SerializeField] private Transform throwPoint;
+    [SerializeField] internal Transform throwPoint;
     [SerializeField] private GameObject holdWeapon;
     [SerializeField] private LayerMask layerMask;
 
     protected Vector3 moveVector;
     protected Collider my_collider;
     protected Vector3 direction;
-    protected float timer = 0f;
-    protected bool canAttack = false;
-    protected float attackRange = 5f;
-    protected Collider[] enemiesInRange;
-    protected string currentAnimation;
-    protected GameObject target;
+    internal float timer = 0f;
+    internal bool canAttack = false;
+    internal float attackRange = 5f;
+    internal Collider[] enemiesInRange;
+    internal string currentAnimation;
+    internal GameObject target;
 
     public GameObject Target => target;
 
 
     private void Awake()
     {
-        my_collider = GetComponent<Collider>();
+        
     }
 
-    protected void Moving()
+    internal void Moving()
     {
         direction = Vector3.RotateTowards(transform.forward, moveVector, rotateSpeed * Time.fixedDeltaTime, 0f);
         transform.rotation = Quaternion.LookRotation(direction);
@@ -41,11 +41,10 @@ public class Character : MonoBehaviour
         ChangeAnimation("Run");
     }
 
-    protected void StopMoving()
+    internal void PrepareAttack()
     {
         timer += Time.fixedDeltaTime;
         ChangeAnimation("Idle");
-
         if (timer <= 0.5f)
         {
             return;
@@ -67,10 +66,10 @@ public class Character : MonoBehaviour
         enemiesInRange = new Collider[maxTargets];
 
         int numEnemies = Physics.OverlapSphereNonAlloc(transform.position, attackRange, enemiesInRange, layerMask);
-        if (numEnemies <= 0)
+        if (numEnemies <= 1)
         {
             target = null;
-            return;
+            return;  
         }
 
         for (int i = 0; i < numEnemies; i++)
@@ -82,7 +81,7 @@ public class Character : MonoBehaviour
         }
     }
 
-    protected void ExecuteAttack(Transform throwPoint, Vector3 direction)
+    internal void ExecuteAttack(Transform throwPoint, Vector3 direction)
     {
 
         GameObject bulletObj = ObjectPool.instance.GetPooledObject();
@@ -95,7 +94,7 @@ public class Character : MonoBehaviour
             bulletObj.transform.position = startPos;
 
             Bullet bullet = bulletObj.GetComponent<Bullet>();
-            bullet.attacker = this.gameObject;
+            bullet.attacker = this;
             bullet.Activate(direction);
         }
     }
@@ -110,7 +109,7 @@ public class Character : MonoBehaviour
         holdWeapon.SetActive(true);
     }
 
-    protected void ChangeAnimation(string animation)
+    internal void ChangeAnimation(string animation)
     {
         if (currentAnimation != animation)
         {

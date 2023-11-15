@@ -9,13 +9,19 @@ public class Bullet : MonoBehaviour
     [SerializeField] public Rigidbody rb;
     [SerializeField] public Transform mesh;
 
-    public GameObject attacker;
+    public Character attacker;
     private float speed = 5f;
     private float rotateSpeed = 200f;
+    private Vector3 startPoint;
 
     private void Update()
     {
         mesh.Rotate(Vector3.up * rotateSpeed * Time.deltaTime, Space.Self);
+
+        if(Vector3.Distance(startPoint, transform.position) > attacker.attackRange)
+        {
+            Deactivate();
+        }
     }
 
     public void Activate(Vector3 direction)
@@ -24,6 +30,8 @@ public class Bullet : MonoBehaviour
         rb.velocity = direction * speed;
         rb.transform.rotation = Quaternion.LookRotation(direction);
         gameObject.SetActive(true);
+
+        startPoint = transform.position;
     }
 
     public void Deactivate()
@@ -33,9 +41,8 @@ public class Bullet : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.layer == 8 && other.gameObject != attacker)
+        if (other.gameObject.layer == 8 && other.gameObject != attacker.gameObject)
         {
-            Debug.Log("hit " + other);
             Deactivate();
         }
     }

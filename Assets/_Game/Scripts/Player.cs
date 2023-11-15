@@ -12,6 +12,7 @@ public class Player : Character
     private void Awake()
     {
         joystick = FindObjectOfType<FloatingJoystick>();
+        my_collider = GetComponent<Collider>();
         rb = GetComponent<Rigidbody>();
     }
 
@@ -33,7 +34,7 @@ public class Player : Character
         }
         else if (joystick.Horizontal == 0 && joystick.Vertical == 0)
         {
-            StopMoving();
+            PrepareAttack();
         }
 
         rb.MovePosition(rb.position + moveVector);
