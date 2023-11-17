@@ -10,7 +10,7 @@ public class Character : MonoBehaviour
     [SerializeField] private Animator animator;
     [SerializeField] internal Transform throwPoint;
     [SerializeField] private GameObject holdWeapon;
-    [SerializeField] private LayerMask layerMask;
+    [SerializeField] private LayerMask characterLayer;
 
     protected Vector3 moveVector;
     protected Collider my_collider;
@@ -38,13 +38,13 @@ public class Character : MonoBehaviour
         timer = 0f;
         canAttack = true;
         ShowWeapon();
-        ChangeAnimation("Run");
+        ChangeAnimation(MyConst.Animation.RUN);
     }
 
     internal void PrepareAttack()
     {
         timer += Time.fixedDeltaTime;
-        ChangeAnimation("Idle");
+        ChangeAnimation(MyConst.Animation.IDLE);
         if (timer <= 0.5f)
         {
             return;
@@ -52,7 +52,7 @@ public class Character : MonoBehaviour
 
         if (canAttack && target != null)
         {
-            ChangeAnimation("Attack");
+            ChangeAnimation(MyConst.Animation.ATTACK);
             transform.LookAt(target.transform.position);
             ExecuteAttack(throwPoint, (target.transform.position - transform.position).normalized);
             timer = 0f;
@@ -65,19 +65,20 @@ public class Character : MonoBehaviour
         int maxTargets = 10;
         enemiesInRange = new Collider[maxTargets];
 
-        int numEnemies = Physics.OverlapSphereNonAlloc(transform.position, attackRange, enemiesInRange, layerMask);
-        if (numEnemies <= 1)
+        int numEnemies = Physics.OverlapSphereNonAlloc(transform.position, attackRange, enemiesInRange, characterLayer);
+        if (numEnemies > 1)
+        {
+            for (int i = 0; i < numEnemies; i++)
+            {
+                if (enemiesInRange[i] != my_collider)
+                {
+                    target = enemiesInRange[i].gameObject;
+                }
+            }
+        }
+        else
         {
             target = null;
-            return;  
-        }
-
-        for (int i = 0; i < numEnemies; i++)
-        {
-            if (enemiesInRange[i] != my_collider)
-            {
-                target = enemiesInRange[i].gameObject;
-            }
         }
     }
 

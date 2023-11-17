@@ -12,12 +12,7 @@ public class PatrolState : IState
 
     public void OnExecute(Bot bot)
     {
-        //moving around
-
-        if(bot.Target != null)
-        {
-            bot.ChangeState(new AttackState());
-        }
+        bot.Patrolling();
     }
 
     public void OnExit(Bot bot)

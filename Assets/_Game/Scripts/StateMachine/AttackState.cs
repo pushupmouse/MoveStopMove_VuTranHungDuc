@@ -12,13 +12,7 @@ public class AttackState : IState
 
     public void OnExecute(Bot bot)
     {
-        if(bot.Target != null)
-        {
-        }
-        else
-        {
-            bot.ChangeState(new IdleState());
-        }
+        bot.Attacking();
     }
 
     public void OnExit(Bot bot)
