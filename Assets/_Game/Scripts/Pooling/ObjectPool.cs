@@ -9,7 +9,7 @@ public class ObjectPool : MonoBehaviour
     private List<GameObject> pooledObjects = new List<GameObject>();
     
     [SerializeField] private GameObject prefab;
-    [SerializeField] private int amountToPool = 20;
+    [SerializeField] private int amountToPool = 50;
 
     private void Awake()
     {

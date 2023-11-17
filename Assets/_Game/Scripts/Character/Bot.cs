@@ -14,6 +14,7 @@ public class Bot : Character
     private NavMeshAgent agent;
     private IState currentState;
     private bool walkPointSet = false;
+    private bool isDead;
 
 
     private void Awake()
@@ -28,11 +29,13 @@ public class Bot : Character
         {
             currentState.OnExecute(this);
         }
-        
-        FindTarget();
-        
 
-        if(target == null)
+        if (target == null)
+        {
+            FindTarget();
+        }
+
+        if (target == null)
         {
             ChangeState(new PatrolState());
         }
@@ -50,7 +53,10 @@ public class Bot : Character
         }
         else
         {
-            agent.SetDestination(walkPoint);
+            if (!isDead)
+            {
+                agent.SetDestination(walkPoint);
+            }
             Moving();
         }
 
@@ -67,7 +73,18 @@ public class Bot : Character
 
         PrepareAttack();
 
-        transform.LookAt(target.transform);
+        if(target != null)
+        {
+            transform.LookAt(target.transform);
+
+        }
+
+    }
+
+    public override void OnHit()
+    {
+        base.OnHit();
+        Invoke(nameof(Activate), 2f);
     }
 
     private void SearchWalkPoint()
@@ -105,7 +122,13 @@ public class Bot : Character
         float randomX = Random.Range(-15, 15);
         float randomZ = Random.Range(-15, 15);
         transform.position = new Vector3(randomX, transform.position.y, randomZ);
-        
+        isDead = false;
         gameObject.SetActive(true);
+    }
+
+    public override void Deactivate()
+    {
+        base.Deactivate();
+        isDead = true;
     }
 }

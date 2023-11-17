@@ -45,6 +45,7 @@ public class Bullet : MonoBehaviour
         {
             Character character = other.GetComponent<Character>();
             character.OnHit();
+            attacker.OnKill();
             Deactivate();
         }
     }

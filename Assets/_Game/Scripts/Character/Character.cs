@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using static UnityEngine.GraphicsBuffer;
 
@@ -48,23 +49,28 @@ public class Character : MonoBehaviour
         if (canAttack && target != null)
         {
             ChangeAnimation(MyConst.Animation.ATTACK);
-            transform.LookAt(target.transform.position);
+            transform.LookAt(new Vector3(target.transform.position.x, transform.position.y, target.transform.position.z));
             ExecuteAttack(throwPoint, (target.transform.position - transform.position).normalized);
             timer = 0f;
             canAttack = false;
+            Invoke(nameof(ResetAttack), 2f);
         }
+    }
+
+    private void ResetAttack()
+    {
+        timer = 0f;
+        canAttack = true;
     }
 
     protected void FindTarget()
     {
-        int maxTargets = 10;
-        enemiesInRange = new Collider[maxTargets];
-
-        int numEnemies = Physics.OverlapSphereNonAlloc(transform.position, attackRange, enemiesInRange, characterLayer);
-        if (numEnemies > 1)
+        enemiesInRange = Physics.OverlapSphere(transform.position, attackRange, characterLayer);
+        if (enemiesInRange.Length > 0)
         {
-            for (int i = 0; i < numEnemies; i++)
+            for (int i = 0; i < enemiesInRange.Length; i++)
             {
+                //CHECK DISTANCE IF THE BOT TOO FAR AWAY BY RESPAWNING THEN TARGET NULL!!!!
                 if (enemiesInRange[i] != my_collider)
                 {
                     target = enemiesInRange[i].gameObject;
@@ -77,10 +83,14 @@ public class Character : MonoBehaviour
         }
     }
 
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(transform.position, attackRange);
+    }
+
     internal void ExecuteAttack(Transform throwPoint, Vector3 direction)
     {
-
-
         GameObject bulletObj = ObjectPool.instance.GetPooledObject();
 
         if (bulletObj != null)
@@ -96,14 +106,14 @@ public class Character : MonoBehaviour
         }
     }
 
-    internal void OnHit()
+    public virtual void OnHit()
     {
         Deactivate();
-        
-        if(gameObject.GetComponent<Bot>() != null)
-        {
-            Invoke(nameof(Activate), 2f);
-        }
+    }
+
+    internal void OnKill()
+    {
+        target = null;
     }
 
     public virtual void Activate()
@@ -111,7 +121,7 @@ public class Character : MonoBehaviour
         gameObject.SetActive(true);
     }
 
-    private void Deactivate()
+    public virtual void Deactivate()
     {
         gameObject.SetActive(false);
     }

@@ -19,9 +19,13 @@ public class Player : Character
     private void FixedUpdate()
     {
         MoveWithJoystick();
-        FindTarget();
 
-        if(Input.GetKeyDown(KeyCode.W))
+        if(target == null) 
+        {
+            FindTarget();
+        }
+
+        if (Input.GetKeyDown(KeyCode.W))
         {
             LevelManager.instance.SpawnBot();
         }
@@ -43,5 +47,10 @@ public class Player : Character
         }
 
         rb.MovePosition(rb.position + moveVector);
+    }
+
+    public override void Deactivate()
+    {
+        
     }
 }
