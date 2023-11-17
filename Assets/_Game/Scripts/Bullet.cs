@@ -43,6 +43,8 @@ public class Bullet : MonoBehaviour
     {
         if (other.gameObject.layer == 8 && other.gameObject != attacker.gameObject)
         {
+            Character character = other.GetComponent<Character>();
+            character.OnHit();
             Deactivate();
         }
     }

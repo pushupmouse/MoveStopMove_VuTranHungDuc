@@ -20,6 +20,11 @@ public class Player : Character
     {
         MoveWithJoystick();
         FindTarget();
+
+        if(Input.GetKeyDown(KeyCode.W))
+        {
+            LevelManager.instance.SpawnBot();
+        }
     }
 
     private void MoveWithJoystick()

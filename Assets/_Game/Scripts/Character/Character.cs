@@ -16,7 +16,7 @@ public class Character : MonoBehaviour
     protected Collider my_collider;
     protected Vector3 direction;
     internal float timer = 0f;
-    internal bool canAttack = false;
+    internal bool canAttack = true;
     internal float attackRange = 5f;
     internal Collider[] enemiesInRange;
     internal string currentAnimation;
@@ -24,11 +24,6 @@ public class Character : MonoBehaviour
 
     public GameObject Target => target;
 
-
-    private void Awake()
-    {
-        
-    }
 
     internal void Moving()
     {
@@ -85,6 +80,7 @@ public class Character : MonoBehaviour
     internal void ExecuteAttack(Transform throwPoint, Vector3 direction)
     {
 
+
         GameObject bulletObj = ObjectPool.instance.GetPooledObject();
 
         if (bulletObj != null)
@@ -99,6 +95,27 @@ public class Character : MonoBehaviour
             bullet.Activate(direction);
         }
     }
+
+    internal void OnHit()
+    {
+        Deactivate();
+        
+        if(gameObject.GetComponent<Bot>() != null)
+        {
+            Invoke(nameof(Activate), 2f);
+        }
+    }
+
+    public virtual void Activate()
+    {
+        gameObject.SetActive(true);
+    }
+
+    private void Deactivate()
+    {
+        gameObject.SetActive(false);
+    }
+
 
     protected void HideWeapon()
     {

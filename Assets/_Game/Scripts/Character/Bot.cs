@@ -30,6 +30,7 @@ public class Bot : Character
         }
         
         FindTarget();
+        
 
         if(target == null)
         {
@@ -95,5 +96,16 @@ public class Bot : Character
         {
             currentState.OnEnter(this);
         }
+    }
+
+    public override void Activate()
+    {
+        base.Activate();
+
+        float randomX = Random.Range(-15, 15);
+        float randomZ = Random.Range(-15, 15);
+        transform.position = new Vector3(randomX, transform.position.y, randomZ);
+        
+        gameObject.SetActive(true);
     }
 }
