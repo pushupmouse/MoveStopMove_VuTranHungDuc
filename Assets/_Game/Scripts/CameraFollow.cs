@@ -37,4 +37,9 @@ public class CameraFollow : MonoBehaviour
         player = FindObjectOfType<Player>().transform;
         offset = myCamera.position - player.position;
     }
+
+    public void AdjustCamera()
+    {
+        offset += new Vector3(0f, 1f, -1f);
+    }
 }

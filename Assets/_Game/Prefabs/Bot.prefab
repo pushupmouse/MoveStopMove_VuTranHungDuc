@@ -1025,8 +1025,9 @@ GameObject:
   - component: {fileID: 834425744604584043}
   - component: {fileID: 834425744604584042}
   - component: {fileID: 834425744604584041}
-  - component: {fileID: 834425744604584040}
   - component: {fileID: 834425744604584036}
+  - component: {fileID: 834425744604584040}
+  - component: {fileID: 6143597560837496423}
   m_Layer: 8
   m_Name: Bot
   m_TagString: Untagged
@@ -1078,32 +1079,8 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 80
+  m_Constraints: 84
   m_CollisionDetection: 0
---- !u!114 &834425744604584040
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 834425744604584047}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0fde388f5f068c740b113db910db6196, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  moveSpeed: 10
-  rotateSpeed: 20
-  animator: {fileID: 834425744501082982}
-  throwPoint: {fileID: 834425745389062712}
-  holdWeapon: {fileID: 834425745884691489}
-  characterLayer:
-    serializedVersion: 2
-    m_Bits: 256
-  groundLayer:
-    serializedVersion: 2
-    m_Bits: 64
-  walkPointRange: 60
 --- !u!195 &834425744604584036
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -1126,6 +1103,48 @@ NavMeshAgent:
   m_BaseOffset: 1
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &834425744604584040
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 834425744604584047}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0fde388f5f068c740b113db910db6196, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 10
+  rotateSpeed: 20
+  animator: {fileID: 834425744501082982}
+  throwPoint: {fileID: 834425745389062712}
+  holdWeapon: {fileID: 834425745884691489}
+  characterLayer:
+    serializedVersion: 2
+    m_Bits: 256
+  attackRange: 5
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  walkPointRange: 60
+--- !u!114 &6143597560837496423
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 834425744604584047}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 411060de4483b5e4c9847cd3cbc18554, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetColor: {r: 1, g: 0, b: 0, a: 1}
+  needBoxIndicator: 1
+  needArrowIndicator: 1
+  needDistanceText: 1
+  indicator: {fileID: 0}
 --- !u!1 &834425744614643592
 GameObject:
   m_ObjectHideFlags: 0

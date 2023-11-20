@@ -10,8 +10,8 @@ public class Bullet : MonoBehaviour
     [SerializeField] public Transform mesh;
 
     public Character attacker;
-    private float speed = 5f;
-    private float rotateSpeed = 200f;
+    public float speed = 5f;
+    public float rotateSpeed = 500f;
     private Vector3 startPoint;
 
     private void Update()
@@ -36,6 +36,9 @@ public class Bullet : MonoBehaviour
 
     public void Deactivate()
     {
+        transform.localScale = Vector3.one;
+        speed = 5f;
+        rotateSpeed = 500f;
         gameObject.SetActive(false);
     }
 

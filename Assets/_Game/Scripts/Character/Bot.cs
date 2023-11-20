@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TreeEditor;
 using UnityEngine;
 using UnityEngine.AI;
 using Random = UnityEngine.Random;
@@ -14,13 +15,14 @@ public class Bot : Character
     private NavMeshAgent agent;
     private IState currentState;
     private bool walkPointSet = false;
-    private bool isDead;
+
 
 
     private void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
         my_collider = GetComponent<Collider>();
+        level = 1;
     }
 
     private void FixedUpdate()
@@ -30,11 +32,16 @@ public class Bot : Character
             currentState.OnExecute(this);
         }
 
+        if (target != null && Vector3.Distance(transform.position, target.transform.position) > attackRange)
+        {
+            target = null;
+        }
+
         if (target == null)
         {
             FindTarget();
         }
-
+        
         if (target == null)
         {
             ChangeState(new PatrolState());
@@ -53,7 +60,7 @@ public class Bot : Character
         }
         else
         {
-            if (!isDead)
+            if (gameObject.activeSelf)
             {
                 agent.SetDestination(walkPoint);
             }
@@ -70,13 +77,12 @@ public class Bot : Character
     internal void Attacking()
     {
         agent.SetDestination(transform.position);
-
+        ChangeAnimation(MyConst.Animation.IDLE);
         PrepareAttack();
 
         if(target != null)
         {
             transform.LookAt(target.transform);
-
         }
 
     }
@@ -129,6 +135,10 @@ public class Bot : Character
     public override void Deactivate()
     {
         base.Deactivate();
-        isDead = true;
+    }
+
+    public override void OnKill()
+    {
+
     }
 }

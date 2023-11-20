@@ -31,13 +31,13 @@ public class BotPool : MonoBehaviour
 
     public GameObject GetPooledObject()
     {
-        for (int i = 0; i < pooledObjects.Count; i++)
-        {
-            if (!pooledObjects[i].activeInHierarchy)
-            {
-                return pooledObjects[i];
-            }
-        }
+        //for (int i = 0; i < pooledObjects.Count; i++)
+        //{
+        //    if (!pooledObjects[i].activeInHierarchy)
+        //    {
+        //        return pooledObjects[i];
+        //    }
+        //}
 
         return null;
     }
