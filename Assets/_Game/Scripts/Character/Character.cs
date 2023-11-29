@@ -14,7 +14,9 @@ public class Character : MonoBehaviour
     [SerializeField] internal Transform throwPoint;
     [SerializeField] private GameObject holdWeapon;
     [SerializeField] private LayerMask characterLayer;
-    [SerializeField] internal float attackRange = 5f;
+    [SerializeField] internal float attackRange = 1f;
+    [SerializeField] private int minLevel = 1;
+    [SerializeField] private int maxLevel = 5;
 
     protected Vector3 moveVector;
     protected Collider my_collider;
@@ -25,10 +27,17 @@ public class Character : MonoBehaviour
     internal string currentAnimation;
     internal GameObject target;
     protected bool isDead;
-    protected int level;
+    private int level;
 
     public GameObject Target => target;
 
+    protected int Level
+    {
+        get => level; set
+        {
+            level = Math.Clamp(value, minLevel, maxLevel);
+        }
+    }
 
     internal void Moving()
     {
@@ -45,7 +54,7 @@ public class Character : MonoBehaviour
     internal void PrepareAttack()
     {
         timer += Time.fixedDeltaTime;
-        
+
         if (timer <= 0.5f)
         {
             return;
@@ -59,33 +68,29 @@ public class Character : MonoBehaviour
         }
     }
 
-    private void ResetAttack()
-    {
-        timer = 0f;
-        canAttack = true;
-    }
 
     protected void FindTarget()
     {
         enemiesInRange = Physics.OverlapSphere(transform.position, attackRange, characterLayer);
 
-        if (enemiesInRange.Length > 1)
+        float nearestDistance = float.MaxValue;
+        target = null;
+
+        foreach (var enemyCollider in enemiesInRange)
         {
-            for (int i = 0; i < enemiesInRange.Length; i++)
+            if (enemyCollider != my_collider)
             {
-                if (enemiesInRange[i] != my_collider)
+                float distance = Vector3.Distance(transform.position, enemyCollider.transform.position);
+
+                if (distance < nearestDistance)
                 {
-                    target = enemiesInRange[i].gameObject;
+                    nearestDistance = distance;
+                    target = enemyCollider.gameObject;
                 }
             }
         }
-        else
-        {
-            target = null;
-        }
-
-        
     }
+
 
     private void OnDrawGizmos()
     {
@@ -109,9 +114,9 @@ public class Character : MonoBehaviour
 
             Bullet bullet = bulletObj.GetComponent<Bullet>();
             bullet.attacker = this;
-            if(bullet.attacker.level <= 15)
+            if(bullet.attacker.Level <= 15)
             {
-                float scaleMult = bullet.attacker.level;
+                float scaleMult = bullet.attacker.Level;
                 bullet.transform.localScale = Vector3.one + new Vector3(0.1f, 0.1f, 0.1f) * scaleMult;
                 bullet.speed += 1f * scaleMult/2;
                 bullet.rotateSpeed += 1f * scaleMult;
@@ -135,19 +140,17 @@ public class Character : MonoBehaviour
 
     public virtual void OnKill()
     {
-        level++;
+        Level++;
 
-        Vector3 scaleChange = new Vector3(0.1f, 0.1f, 0.1f);
-        Vector3 positionChange = new Vector3(0.0f, 0.05f, 0.0f);
+        Vector3 scaleChange = new Vector3(0.05f, 0.05f, 0.05f);
+        Vector3 positionChange = new Vector3(0.0f, 0.025f, 0.0f);
 
-        if (level <= 15)
+        if (Level <= 15)
         {
             transform.localScale += scaleChange;
             transform.position += positionChange;
+            attackRange += 0.1f + (0.1f * Level/8);
         }
-
-
-        attackRange += 0.25f;
     }
 
     public virtual void Activate()

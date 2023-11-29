@@ -5,7 +5,7 @@ using UnityEngine;
 public class ObjectPool : MonoBehaviour
 {
     public static ObjectPool instance;
-
+    //dictionary(weapon type, pooled objects)
     private List<GameObject> pooledObjects = new List<GameObject>();
     
     [SerializeField] private GameObject prefab;

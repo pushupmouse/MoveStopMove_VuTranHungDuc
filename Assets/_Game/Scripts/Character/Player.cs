@@ -5,10 +5,13 @@ using UnityEngine;
 
 public class Player : Character
 {
+    public WeaponSO weaponSO;
     private FloatingJoystick joystick;
     private Rigidbody rb;
     private CameraFollow _camera;
     private int levelToAdjust = 0;
+    private GameObject previousTarget;
+    private DataManager dataManager;
 
 
     private void Awake()
@@ -17,7 +20,7 @@ public class Player : Character
         _camera = FindObjectOfType<CameraFollow>();
         my_collider = GetComponent<Collider>();
         rb = GetComponent<Rigidbody>();
-        level = 0;
+        Level = 0;
     }
 
     private void FixedUpdate()
@@ -34,10 +37,7 @@ public class Player : Character
             FindTarget();
         }
 
-        if (Input.GetKeyDown(KeyCode.W))
-        {
-            LevelManager.instance.SpawnBot();
-        }
+        SetTargetIndicator();
     }
 
     private void MoveWithJoystick()
@@ -59,6 +59,37 @@ public class Player : Character
         rb.MovePosition(rb.position + moveVector);
     }
 
+    private void SetTargetIndicator()
+    {
+        if (target == previousTarget)
+        {
+            return;
+        }
+
+        if (previousTarget != null)
+        {
+            Bot bot = previousTarget.GetComponent<Bot>();
+
+            if (bot != null)
+            {
+                bot.targetIndicator.SetActive(false);
+            }
+        }
+
+        if (target != null)
+        {
+            Bot bot = target.GetComponent<Bot>();
+
+            if (bot != null)
+            {
+                bot.targetIndicator.SetActive(true);
+            }
+        }
+        previousTarget = target;
+    }
+
+
+
     public override void Deactivate()
     {
         
@@ -70,10 +101,17 @@ public class Player : Character
 
         levelToAdjust++;
 
-        if(levelToAdjust >= 5 && level <= 15)
+        if(levelToAdjust >= 5 && Level <= 15)
         {
             _camera.AdjustCamera();
             levelToAdjust = 0;
         }
     }
+    
+    //private void SaveCurrentWeapon()
+    //{
+    //    WeaponData currentWeaponData = weaponSO.weapons[0];
+    //    dataManager.SaveToPlayerPref(currentWeaponData);
+    //    Debug.Log(currentWeaponData.weaponType);
+    //}
 }

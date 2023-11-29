@@ -9,7 +9,7 @@ public class Bullet : MonoBehaviour
     [SerializeField] public Rigidbody rb;
     [SerializeField] public Transform mesh;
 
-    public Character attacker;
+    internal Character attacker;
     public float speed = 5f;
     public float rotateSpeed = 500f;
     private Vector3 startPoint;
@@ -46,7 +46,9 @@ public class Bullet : MonoBehaviour
     {
         if (other.gameObject.layer == 8 && other.gameObject != attacker.gameObject)
         {
-            Character character = other.GetComponent<Character>();
+            //Character character = other.GetComponent<Character>();
+            Character character = Cache.GetCharacter(other);
+
             character.OnHit();
             attacker.OnKill();
             Deactivate();

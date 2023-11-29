@@ -10,7 +10,8 @@ public class Bot : Character
 {
     [SerializeField] LayerMask groundLayer;
     [SerializeField] float walkPointRange;
-
+    
+    public GameObject targetIndicator;
     Vector3 walkPoint;
     private NavMeshAgent agent;
     private IState currentState;
@@ -22,7 +23,7 @@ public class Bot : Character
     {
         agent = GetComponent<NavMeshAgent>();
         my_collider = GetComponent<Collider>();
-        level = 1;
+        Level = 0;
     }
 
     private void FixedUpdate()
@@ -84,7 +85,6 @@ public class Bot : Character
         {
             transform.LookAt(target.transform);
         }
-
     }
 
     public override void OnHit()
