@@ -250,8 +250,10 @@ MonoBehaviour:
   _collider: {fileID: 775129699790012270}
   throwPoint: {fileID: 775129698625324774}
   attackRange: 5
+  bullet: {fileID: -6605317874237953922, guid: 9fa20b91a9f099744839981a1f955603, type: 3}
   rb: {fileID: 775129699790012269}
   _camera: {fileID: 0}
+  joystick: {fileID: 0}
   weaponSO: {fileID: 11400000, guid: 3b812e42ded93f54abd724644f79cdb0, type: 2}
 --- !u!1 &779804771923182224
 GameObject:

@@ -4,18 +4,11 @@ using UnityEngine;
 
 public class LevelManager : Singleton<LevelManager>
 {
-    public static LevelManager instance;
-
-    private void Awake()
-    {
-        Invoke(nameof(SpawnBot), 1f);
-    }
-
     public void SpawnBot()
     {
-        BotPool botPool = BotPool.instance;
-        
-        for(int i = 0; i < botPool.amountToPool; i++)
+        BotPool botPool = BotPool.Instance;
+
+        for (int i = 0; i < botPool.amountToPool; i++)
         {
             GameObject botObj = botPool.GetPooledObject();
 

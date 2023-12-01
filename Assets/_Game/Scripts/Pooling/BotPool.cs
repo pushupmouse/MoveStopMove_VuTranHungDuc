@@ -2,22 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BotPool : MonoBehaviour
+public class BotPool : Singleton<BotPool>
 {
-    public static BotPool instance;
 
     private List<GameObject> pooledObjects = new List<GameObject>();
 
     [SerializeField] private GameObject botPrefab;
     [SerializeField] public int amountToPool = 5;
-
-    private void Awake()
-    {
-        if (instance == null)
-        {
-            instance = this;
-        }
-    }
 
     private void Start()
     {
@@ -31,13 +22,13 @@ public class BotPool : MonoBehaviour
 
     public GameObject GetPooledObject()
     {
-        //for (int i = 0; i < pooledObjects.Count; i++)
-        //{
-        //    if (!pooledObjects[i].activeInHierarchy)
-        //    {
-        //        return pooledObjects[i];
-        //    }
-        //}
+        for (int i = 0; i < pooledObjects.Count; i++)
+        {
+            if (!pooledObjects[i].activeInHierarchy)
+            {
+                return pooledObjects[i];
+            }
+        }
 
         return null;
     }

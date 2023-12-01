@@ -25,11 +25,19 @@ public class Player : Character
 
     private void FixedUpdate()
     {
+        if (!GameManager.Instance.IsState(GameManager.GameState.Gameplay))
+        {
+            return;
+        }
+
         MoveWithJoystick();
 
-        if (target != null && Vector3.Distance(_transform.position, target.transform.position) > attackRange)
+        if (target != null) 
         {
-            target = null;
+            if (!target.activeSelf || Vector3.Distance(_transform.position, target.transform.position) > attackRange)
+            {
+                target = null;
+            }
         }
 
         if (target == null)

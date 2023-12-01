@@ -89,8 +89,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d70ce54b3c25c4e499096db4e4592bd2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bulletScaleBonus: 0.1
   rb: {fileID: 8923057155239341357}
   mesh: {fileID: 615845913157617567}
+  prefab: {fileID: 615845912032919979}
   speed: 5
   rotateSpeed: 500
 --- !u!1 &615845913157617564

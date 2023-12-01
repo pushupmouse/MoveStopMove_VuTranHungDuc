@@ -22,6 +22,7 @@ public class Character : MonoBehaviour
     private int level;
     private float maxMagnitude = 0f;
     private float cooldown = 0.5f;
+    private float idleCooldown = 2f;
     private float speedMult = 0.5f;
     private float rotateMult = 1f;
     private float scaleBonus = 0.05f;
@@ -33,6 +34,7 @@ public class Character : MonoBehaviour
     protected Vector3 direction;
     protected bool isDead;
     internal float timer = 0f;
+    internal float idleTimer = 0f;
     internal bool canAttack = true;
     internal Collider[] enemiesInRange;
     internal string currentAnimation;
@@ -68,6 +70,7 @@ public class Character : MonoBehaviour
     internal void PrepareAttack()
     {
         timer += Time.fixedDeltaTime;
+        idleTimer += Time.fixedDeltaTime;
 
         if (timer <= cooldown)
         {
@@ -77,8 +80,18 @@ public class Character : MonoBehaviour
         if (canAttack && target != null)
         {
             ExecuteAttack(throwPoint, (target.transform.position - _transform.position).normalized);
+
             timer = 0f;
             canAttack = false;
+            idleTimer = 0f;
+        }
+
+        if (idleTimer >= idleCooldown && target != null)
+        {
+            ExecuteAttack(throwPoint, (target.transform.position - _transform.position).normalized);
+            timer = 0f;
+            canAttack = false;
+            idleTimer = 0f;
         }
     }
 
@@ -90,8 +103,10 @@ public class Character : MonoBehaviour
         float nearestDistance = float.MaxValue;
         target = null;
 
-        foreach (var enemyCollider in enemiesInRange)
+        for (int i = 0; i < enemiesInRange.Length; i++)
         {
+            Collider enemyCollider = enemiesInRange[i];
+
             if (enemyCollider != _collider)
             {
                 float distance = Vector3.Distance(_transform.position, enemyCollider.transform.position);
@@ -117,7 +132,7 @@ public class Character : MonoBehaviour
         ChangeAnimation(MyConst.Animation.ATTACK);
         _transform.LookAt(new Vector3(target.transform.position.x, _transform.position.y, target.transform.position.z));
 
-        GameObject bulletObj = ObjectPool.instance.GetPooledObject();
+        GameObject bulletObj = BulletPool.Instance.GetPooledObject();
 
         if (bulletObj != null)
         {

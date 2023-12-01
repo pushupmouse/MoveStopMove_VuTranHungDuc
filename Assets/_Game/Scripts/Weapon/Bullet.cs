@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using UnityEditor;
 using UnityEngine;
+using Lean.Pool;
 
 public class Bullet : MonoBehaviour
 {
@@ -11,6 +12,7 @@ public class Bullet : MonoBehaviour
     public float bulletScaleBonus = 0.1f;
     public Rigidbody rb;
     public Transform mesh;
+    public GameObject prefab;
     public float speed = 5f;
     public float rotateSpeed = 500f;
 
@@ -45,7 +47,6 @@ public class Bullet : MonoBehaviour
     {
         if (other.gameObject.layer == 8 && other.gameObject != attacker.gameObject)
         {
-            //Character character = other.GetComponent<Character>();
             Character character = Cache.GetCharacter(other);
 
             character.OnHit();

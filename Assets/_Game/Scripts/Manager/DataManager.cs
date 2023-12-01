@@ -5,6 +5,7 @@ using UnityEngine;
 public class DataManager : MonoBehaviour
 {
     private string weaponDataKey = "weaponDataKey";
+    public WeaponSO weaponSO;
 
     public string SaveToString()
     {
@@ -28,9 +29,6 @@ public class DataManager : MonoBehaviour
         return null;
     }
 
-
-    //this will get the weapon type
-    public WeaponSO weaponSO;
 
     public WeaponData GetWeaponData(WeaponType weaponType)
     {
