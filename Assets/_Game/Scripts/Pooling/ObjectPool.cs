@@ -6,10 +6,11 @@ public class ObjectPool : MonoBehaviour
 {
     public static ObjectPool instance;
     //dictionary(weapon type, pooled objects)
-    private List<GameObject> pooledObjects = new List<GameObject>();
     
     [SerializeField] private GameObject prefab;
     [SerializeField] private int amountToPool = 50;
+
+    private List<GameObject> pooledObjects = new List<GameObject>();
 
     private void Awake()
     {

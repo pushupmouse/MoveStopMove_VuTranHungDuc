@@ -238,15 +238,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1558af6fced2ea44a81b6d29d4132f18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 10
-  rotateSpeed: 20
   animator: {fileID: 2391806495429995098}
-  throwPoint: {fileID: 775129698625324774}
   holdWeapon: {fileID: 2439474295864440169}
   characterLayer:
     serializedVersion: 2
     m_Bits: 256
+  minLevel: 1
+  maxLevel: 15
+  moveSpeed: 10
+  rotateSpeed: 20
+  _collider: {fileID: 775129699790012270}
+  throwPoint: {fileID: 775129698625324774}
   attackRange: 5
+  rb: {fileID: 775129699790012269}
+  _camera: {fileID: 0}
   weaponSO: {fileID: 11400000, guid: 3b812e42ded93f54abd724644f79cdb0, type: 2}
 --- !u!1 &779804771923182224
 GameObject:

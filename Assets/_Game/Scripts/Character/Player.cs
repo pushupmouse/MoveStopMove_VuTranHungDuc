@@ -5,21 +5,21 @@ using UnityEngine;
 
 public class Player : Character
 {
-    public WeaponSO weaponSO;
-    private FloatingJoystick joystick;
-    private Rigidbody rb;
-    private CameraFollow _camera;
+    [SerializeField] private Rigidbody rb;
+    [SerializeField] private CameraFollow _camera;
+    [SerializeField] private FloatingJoystick joystick;
+    
     private int levelToAdjust = 0;
+    private int levelSegment = 5;
     private GameObject previousTarget;
     private DataManager dataManager;
+    public WeaponSO weaponSO;
 
 
     private void Awake()
     {
-        joystick = FindObjectOfType<FloatingJoystick>();
-        _camera = FindObjectOfType<CameraFollow>();
-        my_collider = GetComponent<Collider>();
-        rb = GetComponent<Rigidbody>();
+        _transform = transform;
+        _camera.SetPlayerReference(_transform);
         Level = 0;
     }
 
@@ -27,7 +27,7 @@ public class Player : Character
     {
         MoveWithJoystick();
 
-        if (target != null && Vector3.Distance(transform.position, target.transform.position) > attackRange)
+        if (target != null && Vector3.Distance(_transform.position, target.transform.position) > attackRange)
         {
             target = null;
         }
@@ -101,7 +101,7 @@ public class Player : Character
 
         levelToAdjust++;
 
-        if(levelToAdjust >= 5 && Level <= 15)
+        if(levelToAdjust >= levelSegment && Level <= maxLevel)
         {
             _camera.AdjustCamera();
             levelToAdjust = 0;

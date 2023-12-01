@@ -8,21 +8,24 @@ using Random = UnityEngine.Random;
 
 public class Bot : Character
 {
-    [SerializeField] LayerMask groundLayer;
-    [SerializeField] float walkPointRange;
-    
-    public GameObject targetIndicator;
-    Vector3 walkPoint;
-    private NavMeshAgent agent;
+    [SerializeField] private LayerMask groundLayer;
+    [SerializeField] private float walkPointRange;
+    [SerializeField] private NavMeshAgent agent;
+
+    private Vector3 walkPoint;
     private IState currentState;
     private bool walkPointSet = false;
+    private float maxDistance = 2f;
+    private float minRange = -15f, maxRange = 15f;
+    private float spawnDelay = 2f;
+    private float distanceToPoint = 1f;
+    public GameObject targetIndicator;
 
 
 
     private void Awake()
     {
-        agent = GetComponent<NavMeshAgent>();
-        my_collider = GetComponent<Collider>();
+        _transform = transform;
         Level = 0;
     }
 
@@ -33,7 +36,7 @@ public class Bot : Character
             currentState.OnExecute(this);
         }
 
-        if (target != null && Vector3.Distance(transform.position, target.transform.position) > attackRange)
+        if (target != null && Vector3.Distance(_transform.position, target.transform.position) > attackRange)
         {
             target = null;
         }
@@ -68,7 +71,7 @@ public class Bot : Character
             Moving();
         }
 
-        if((transform.position - walkPoint).magnitude < 1f)
+        if((_transform.position - walkPoint).magnitude < distanceToPoint)
         {
             walkPointSet = false;
         }
@@ -77,20 +80,20 @@ public class Bot : Character
 
     internal void Attacking()
     {
-        agent.SetDestination(transform.position);
+        agent.SetDestination(_transform.position);
         ChangeAnimation(MyConst.Animation.IDLE);
         PrepareAttack();
 
         if(target != null)
         {
-            transform.LookAt(target.transform);
+            _transform.LookAt(target.transform);
         }
     }
 
     public override void OnHit()
     {
         base.OnHit();
-        Invoke(nameof(Activate), 2f);
+        Invoke(nameof(Activate), spawnDelay);
     }
 
     private void SearchWalkPoint()
@@ -98,9 +101,9 @@ public class Bot : Character
         float randomX = Random.Range(-walkPointRange, walkPointRange);
         float randomZ = Random.Range(-walkPointRange, walkPointRange);
 
-        walkPoint = new Vector3(transform.position.x + randomX, transform.position.y, transform.position.z + randomZ);
+        walkPoint = new Vector3(_transform.position.x + randomX, _transform.position.y, _transform.position.z + randomZ);
 
-        if (Physics.Raycast(walkPoint, -transform.up, 2f, groundLayer))
+        if (Physics.Raycast(walkPoint, -_transform.up, maxDistance, groundLayer))
         {
             walkPointSet = true;
         }
@@ -125,9 +128,9 @@ public class Bot : Character
     {
         base.Activate();
 
-        float randomX = Random.Range(-15, 15);
-        float randomZ = Random.Range(-15, 15);
-        transform.position = new Vector3(randomX, transform.position.y, randomZ);
+        float randomX = Random.Range(minRange, maxRange);
+        float randomZ = Random.Range(minRange, maxRange);
+        _transform.position = new Vector3(randomX, _transform.position.y, randomZ);
         isDead = false;
         gameObject.SetActive(true);
     }

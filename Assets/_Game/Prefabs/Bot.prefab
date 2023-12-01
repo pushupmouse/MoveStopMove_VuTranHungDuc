@@ -1116,19 +1116,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0fde388f5f068c740b113db910db6196, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 10
-  rotateSpeed: 20
   animator: {fileID: 834425744501082982}
-  throwPoint: {fileID: 834425745389062712}
   holdWeapon: {fileID: 834425745884691489}
   characterLayer:
     serializedVersion: 2
     m_Bits: 256
+  minLevel: 1
+  maxLevel: 15
+  moveSpeed: 10
+  rotateSpeed: 20
+  _collider: {fileID: 834425744604584042}
+  throwPoint: {fileID: 834425745389062712}
   attackRange: 5
   groundLayer:
     serializedVersion: 2
     m_Bits: 64
   walkPointRange: 60
+  agent: {fileID: 834425744604584036}
   targetIndicator: {fileID: 8652537556304353165}
 --- !u!114 &6143597560837496423
 MonoBehaviour:

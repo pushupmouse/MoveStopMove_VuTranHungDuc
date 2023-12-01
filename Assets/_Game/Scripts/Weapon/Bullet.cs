@@ -6,13 +6,13 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
-    [SerializeField] public Rigidbody rb;
-    [SerializeField] public Transform mesh;
-
+    private Vector3 startPoint;
     internal Character attacker;
+    public float bulletScaleBonus = 0.1f;
+    public Rigidbody rb;
+    public Transform mesh;
     public float speed = 5f;
     public float rotateSpeed = 500f;
-    private Vector3 startPoint;
 
     private void Update()
     {
@@ -25,8 +25,7 @@ public class Bullet : MonoBehaviour
     }
 
     public void Activate(Vector3 direction)
-    {
-        Rigidbody rb = GetComponent<Rigidbody>();
+    { 
         rb.velocity = direction * speed;
         rb.transform.rotation = Quaternion.LookRotation(direction);
         gameObject.SetActive(true);

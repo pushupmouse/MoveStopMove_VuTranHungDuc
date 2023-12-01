@@ -8,28 +8,42 @@ using static UnityEngine.GraphicsBuffer;
 
 public class Character : MonoBehaviour
 {
-    [SerializeField] protected float moveSpeed;
-    [SerializeField] protected float rotateSpeed;
     [SerializeField] private Animator animator;
-    [SerializeField] internal Transform throwPoint;
     [SerializeField] private GameObject holdWeapon;
     [SerializeField] private LayerMask characterLayer;
+    [SerializeField] protected int minLevel = 1;
+    [SerializeField] protected int maxLevel = 15;
+    [SerializeField] protected float moveSpeed;
+    [SerializeField] protected float rotateSpeed;
+    [SerializeField] protected Collider _collider;
+    [SerializeField] internal Transform throwPoint;
     [SerializeField] internal float attackRange = 1f;
-    [SerializeField] private int minLevel = 1;
-    [SerializeField] private int maxLevel = 5;
 
+    private int level;
+    private float maxMagnitude = 0f;
+    private float cooldown = 0.5f;
+    private float speedMult = 0.5f;
+    private float rotateMult = 1f;
+    private float scaleBonus = 0.05f;
+    private float heightOffset = 0.025f;
+    private float attackRangeBonus = 0.1f;
+    private float ratio = 8f;
+    protected Transform _transform;
     protected Vector3 moveVector;
-    protected Collider my_collider;
     protected Vector3 direction;
+    protected bool isDead;
     internal float timer = 0f;
     internal bool canAttack = true;
     internal Collider[] enemiesInRange;
     internal string currentAnimation;
     internal GameObject target;
-    protected bool isDead;
-    private int level;
 
     public GameObject Target => target;
+
+    private void Awake()
+    {
+        _transform = transform;
+    }
 
     protected int Level
     {
@@ -41,8 +55,8 @@ public class Character : MonoBehaviour
 
     internal void Moving()
     {
-        direction = Vector3.RotateTowards(transform.forward, moveVector, rotateSpeed * Time.fixedDeltaTime, 0f);
-        transform.rotation = Quaternion.LookRotation(direction);
+        direction = Vector3.RotateTowards(_transform.forward, moveVector, rotateSpeed * Time.fixedDeltaTime, maxMagnitude);
+        _transform.rotation = Quaternion.LookRotation(direction);
 
         timer = 0f;
         canAttack = true;
@@ -55,14 +69,14 @@ public class Character : MonoBehaviour
     {
         timer += Time.fixedDeltaTime;
 
-        if (timer <= 0.5f)
+        if (timer <= cooldown)
         {
             return;
         }
 
         if (canAttack && target != null)
         {
-            ExecuteAttack(throwPoint, (target.transform.position - transform.position).normalized);
+            ExecuteAttack(throwPoint, (target.transform.position - _transform.position).normalized);
             timer = 0f;
             canAttack = false;
         }
@@ -71,16 +85,16 @@ public class Character : MonoBehaviour
 
     protected void FindTarget()
     {
-        enemiesInRange = Physics.OverlapSphere(transform.position, attackRange, characterLayer);
+        enemiesInRange = Physics.OverlapSphere(_transform.position, attackRange, characterLayer);
 
         float nearestDistance = float.MaxValue;
         target = null;
 
         foreach (var enemyCollider in enemiesInRange)
         {
-            if (enemyCollider != my_collider)
+            if (enemyCollider != _collider)
             {
-                float distance = Vector3.Distance(transform.position, enemyCollider.transform.position);
+                float distance = Vector3.Distance(_transform.position, enemyCollider.transform.position);
 
                 if (distance < nearestDistance)
                 {
@@ -101,7 +115,7 @@ public class Character : MonoBehaviour
     internal void ExecuteAttack(Transform throwPoint, Vector3 direction)
     {
         ChangeAnimation(MyConst.Animation.ATTACK);
-        transform.LookAt(new Vector3(target.transform.position.x, transform.position.y, target.transform.position.z));
+        _transform.LookAt(new Vector3(target.transform.position.x, _transform.position.y, target.transform.position.z));
 
         GameObject bulletObj = ObjectPool.instance.GetPooledObject();
 
@@ -114,18 +128,18 @@ public class Character : MonoBehaviour
 
             Bullet bullet = bulletObj.GetComponent<Bullet>();
             bullet.attacker = this;
-            if(bullet.attacker.Level <= 15)
+            if(bullet.attacker.Level <= maxLevel)
             {
                 float scaleMult = bullet.attacker.Level;
-                bullet.transform.localScale = Vector3.one + new Vector3(0.1f, 0.1f, 0.1f) * scaleMult;
-                bullet.speed += 1f * scaleMult/2;
-                bullet.rotateSpeed += 1f * scaleMult;
+                bullet.transform.localScale = Vector3.one + new Vector3(bullet.bulletScaleBonus, bullet.bulletScaleBonus, bullet.bulletScaleBonus) * scaleMult;
+                bullet.speed += speedMult * scaleMult;
+                bullet.rotateSpeed += rotateMult * scaleMult;
             }
             else
             {
-                bullet.transform.localScale = Vector3.one + new Vector3(0.1f, 0.1f, 0.1f) * 15;
-                bullet.speed += 1f * 15/2;
-                bullet.rotateSpeed += 1f * 15;
+                bullet.transform.localScale = Vector3.one + new Vector3(bullet.bulletScaleBonus, bullet.bulletScaleBonus, bullet.bulletScaleBonus) * maxLevel;
+                bullet.speed += speedMult * maxLevel;
+                bullet.rotateSpeed += rotateMult * maxLevel;
 
             }
 
@@ -142,14 +156,14 @@ public class Character : MonoBehaviour
     {
         Level++;
 
-        Vector3 scaleChange = new Vector3(0.05f, 0.05f, 0.05f);
-        Vector3 positionChange = new Vector3(0.0f, 0.025f, 0.0f);
+        Vector3 scaleChange = new Vector3(scaleBonus, scaleBonus, scaleBonus);
+        Vector3 positionChange = new Vector3(0f, heightOffset, 0f);
 
-        if (Level <= 15)
+        if (Level <= maxLevel)
         {
-            transform.localScale += scaleChange;
-            transform.position += positionChange;
-            attackRange += 0.1f + (0.1f * Level/8);
+            _transform.localScale += scaleChange;
+            _transform.position += positionChange;
+            attackRange += attackRangeBonus + attackRangeBonus * Level/ratio;
         }
     }
 
