@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,6 +9,7 @@ public class UIManager : Singleton<UIManager>
 {
     [SerializeField] private Button playButton;
     [SerializeField] private Button weaponButton;
+    [SerializeField] private TextMeshProUGUI coinText;
     
     public GameObject menuPanel;
 
@@ -15,6 +17,12 @@ public class UIManager : Singleton<UIManager>
     {
         playButton.onClick.AddListener(OnPlayButtonClick);
         weaponButton.onClick.AddListener(OnWeaponButtonClick);
+        SetCoin();
+    }
+
+    private void SetCoin()
+    {
+        coinText.SetText(GameManager.Instance.UserData.coins.ToString());
     }
 
     private void OnWeaponButtonClick()

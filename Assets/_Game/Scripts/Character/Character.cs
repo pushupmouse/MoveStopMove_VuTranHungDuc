@@ -175,12 +175,10 @@ public class Character : MonoBehaviour
     public virtual void OnKill()
     {
         Level++;
-
-        Vector3 scaleChange = new Vector3(scaleBonus, scaleBonus, scaleBonus);
-        Vector3 positionChange = new Vector3(0f, heightOffset, 0f);
-
-        if (Level <= maxLevel)
+        if (Level < maxLevel)
         {
+            Vector3 scaleChange = new Vector3(scaleBonus, scaleBonus, scaleBonus);
+            Vector3 positionChange = new Vector3(0f, heightOffset, 0f);
             _transform.localScale += scaleChange;
             _transform.position += positionChange;
             attackRange += attackRangeBonus + attackRangeBonus * Level/ratio;

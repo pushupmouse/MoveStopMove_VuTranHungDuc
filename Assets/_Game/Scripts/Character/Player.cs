@@ -11,7 +11,7 @@ public class Player : Character
     [SerializeField] private FloatingJoystick joystick;
     
     private int levelToAdjust = 0;
-    private int levelSegment = 5;
+    private int levelSegment = 3;
     private GameObject previousTarget;
 
 
@@ -120,9 +120,9 @@ public class Player : Character
 
         levelToAdjust++;
 
-        if(levelToAdjust >= levelSegment && Level <= maxLevel)
+        if(levelToAdjust >= levelSegment && Level < maxLevel)
         {
-            _camera.AdjustCamera();
+            _camera.AdjustCamera(Level);
             levelToAdjust = 0;
         }
     }

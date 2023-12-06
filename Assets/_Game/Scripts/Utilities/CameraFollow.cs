@@ -38,9 +38,9 @@ public class CameraFollow : MonoBehaviour
         offset = _camera.position - player.position;
     }
 
-    public void AdjustCamera()
+    public void AdjustCamera(int level)
     {
-        offset += new Vector3(0f, offsetValue, -offsetValue);
+        offset += new Vector3(0f, offsetValue * level, -offsetValue * level);
     }
 
     public void SetPlayerReference(Transform playerReference)

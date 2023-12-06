@@ -26,7 +26,7 @@ public class BulletPool : Singleton<BulletPool>
 
             for (int j = 0; j < amountToPool; j++)
             {
-                GameObject pooledObject = Instantiate(weaponObject.prefab);
+                GameObject pooledObject = Instantiate(weaponObject.prefab, transform.position, Quaternion.identity);
                 pooledObject.SetActive(false);
                 weaponObjects.Add(pooledObject);
             }

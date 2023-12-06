@@ -12,8 +12,8 @@ public class WeaponSO : ScriptableObject
         return weapons[(int)type].weapon;
     }
 
-    public GameObject GetWeaponPreview(int index)
+    public WeaponData GetWeaponByIndex(int index)
     {
-        return weapons[index].shopPreview;
+        return weapons[index];
     }
 }

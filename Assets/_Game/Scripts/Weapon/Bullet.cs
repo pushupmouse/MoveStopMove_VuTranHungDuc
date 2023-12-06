@@ -18,7 +18,7 @@ public class Bullet : MonoBehaviour
 
     private void Update()
     {
-        mesh.Rotate(Vector3.up * rotateSpeed * Time.deltaTime, Space.Self);
+        mesh.Rotate(Vector3.up * rotateSpeed * Time.deltaTime, Space.World);
 
         if(Vector3.Distance(startPoint, transform.position) > attacker.attackRange)
         {

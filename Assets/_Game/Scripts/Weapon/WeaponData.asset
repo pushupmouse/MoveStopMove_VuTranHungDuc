@@ -17,35 +17,41 @@ MonoBehaviour:
     bullet: {fileID: 615845912032919979, guid: 9fa20b91a9f099744839981a1f955603, type: 3}
     weapon: {fileID: 4853606936803808614, guid: 902e4406f262fd04ebff42d17a14e960, type: 3}
     shopPreview: {fileID: 6099911951918437081, guid: 076dccb9c659baa4fb7fb4f2d2cf3fe4, type: 3}
+    price: 0
     range: 0
     speed: 0
   - weaponType: 1
     bullet: {fileID: 615845912032919979, guid: 672b0e03492ec934c87f57503adb9f16, type: 3}
     weapon: {fileID: 4853606936803808614, guid: fd644125beecf654fbaf726860c9b67a, type: 3}
     shopPreview: {fileID: 4715482168154803250, guid: 4ad9b83b0abd1d048b94f6a6c2c1e5a8, type: 3}
+    price: 10
     range: 0
     speed: 0
   - weaponType: 2
     bullet: {fileID: 615845912032919979, guid: 7719f9abfb0042b4490a86f3be18de69, type: 3}
     weapon: {fileID: 4853606936803808614, guid: c180bde8c8b48f44e96e075db40fccb9, type: 3}
     shopPreview: {fileID: 4476717309577452275, guid: e42304d3cdd675347b40513697d4f523, type: 3}
+    price: 20
     range: 0
     speed: 0
   - weaponType: 3
     bullet: {fileID: 615845912032919979, guid: 37e8b7c764a9c8a4cbc97432cb718490, type: 3}
     weapon: {fileID: 4853606936803808614, guid: 8a4685a4989a6c540a8b7de5b30fa884, type: 3}
     shopPreview: {fileID: 7537771477046659165, guid: c29daf79b49dd6746afb5c2a6747e702, type: 3}
+    price: 30
     range: 0
     speed: 0
   - weaponType: 4
     bullet: {fileID: 615845912032919979, guid: ec4a12283f4d8514dba2c58c880d68bb, type: 3}
     weapon: {fileID: 4853606936803808614, guid: 27a079abf43c8f14dbfba881b5b7301c, type: 3}
     shopPreview: {fileID: 4594596963110633, guid: 0bd99d919b486c64cbb7dbe66cf06c67, type: 3}
+    price: 40
     range: 0
     speed: 0
   - weaponType: 5
     bullet: {fileID: 615845912032919979, guid: f2921ef3f68647442a8521f586d425b2, type: 3}
     weapon: {fileID: 4853606936803808614, guid: 95601053cf12e4b4a980487b6464e729, type: 3}
     shopPreview: {fileID: 5305625888221247667, guid: 0797f072731791a45998e46ce309829f, type: 3}
+    price: 50
     range: 0
     speed: 0

@@ -10,6 +10,7 @@ public class WeaponData
     public GameObject bullet;
     public GameObject weapon;
     public GameObject shopPreview;
+    public int price;
     public float range;
     public float speed;
 }
