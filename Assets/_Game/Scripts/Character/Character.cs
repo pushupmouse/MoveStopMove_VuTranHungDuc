@@ -9,20 +9,21 @@ using static UnityEngine.GraphicsBuffer;
 public class Character : MonoBehaviour
 {
     [SerializeField] private Animator animator;
-    [SerializeField] private GameObject holdWeapon;
     [SerializeField] private LayerMask characterLayer;
+    [SerializeField] protected GameObject holdWeapon;
     [SerializeField] protected int minLevel = 1;
     [SerializeField] protected int maxLevel = 15;
     [SerializeField] protected float moveSpeed;
     [SerializeField] protected float rotateSpeed;
     [SerializeField] protected Collider _collider;
+    [SerializeField] protected WeaponSO weaponSO;
     [SerializeField] internal Transform throwPoint;
     [SerializeField] internal float attackRange = 1f;
-
+    
     private int level;
     private float maxMagnitude = 0f;
     private float cooldown = 0.5f;
-    private float idleCooldown = 2f;
+    private float idleCooldown = 1f;
     private float speedMult = 0.5f;
     private float rotateMult = 1f;
     private float scaleBonus = 0.05f;
@@ -33,6 +34,7 @@ public class Character : MonoBehaviour
     protected Vector3 moveVector;
     protected Vector3 direction;
     protected bool isDead;
+    protected Weapon currentWeapon;
     internal float timer = 0f;
     internal float idleTimer = 0f;
     internal bool canAttack = true;
@@ -42,10 +44,6 @@ public class Character : MonoBehaviour
 
     public GameObject Target => target;
 
-    private void Awake()
-    {
-        _transform = transform;
-    }
 
     protected int Level
     {
@@ -54,6 +52,12 @@ public class Character : MonoBehaviour
             level = Math.Clamp(value, minLevel, maxLevel);
         }
     }
+    private void Awake()
+    {
+        _transform = transform;
+    }
+
+
 
     internal void Moving()
     {
@@ -80,21 +84,22 @@ public class Character : MonoBehaviour
         if (canAttack && target != null)
         {
             ExecuteAttack(throwPoint, (target.transform.position - _transform.position).normalized);
-
-            timer = 0f;
-            canAttack = false;
-            idleTimer = 0f;
+            ResetAttack();
         }
 
         if (idleTimer >= idleCooldown && target != null)
         {
             ExecuteAttack(throwPoint, (target.transform.position - _transform.position).normalized);
-            timer = 0f;
-            canAttack = false;
-            idleTimer = 0f;
+            ResetAttack();
         }
     }
 
+    private void ResetAttack()
+    {
+        timer = 0f;
+        canAttack = false;
+        idleTimer = 0f;
+    }
 
     protected void FindTarget()
     {
@@ -132,18 +137,18 @@ public class Character : MonoBehaviour
         ChangeAnimation(MyConst.Animation.ATTACK);
         _transform.LookAt(new Vector3(target.transform.position.x, _transform.position.y, target.transform.position.z));
 
-        GameObject bulletObj = BulletPool.Instance.GetPooledObject();
+        GameObject bulletObj = BulletPool.Instance.GetPooledObject(currentWeapon.weaponType);
 
         if (bulletObj != null)
         {
             HideWeapon();
-            
+
             Vector3 startPos = throwPoint.position;
             bulletObj.transform.position = startPos;
 
             Bullet bullet = bulletObj.GetComponent<Bullet>();
             bullet.attacker = this;
-            if(bullet.attacker.Level <= maxLevel)
+            if (bullet.attacker.Level <= maxLevel)
             {
                 float scaleMult = bullet.attacker.Level;
                 bullet.transform.localScale = Vector3.one + new Vector3(bullet.bulletScaleBonus, bullet.bulletScaleBonus, bullet.bulletScaleBonus) * scaleMult;

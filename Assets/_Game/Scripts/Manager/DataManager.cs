@@ -1,45 +1,30 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.IO;
 
-public class DataManager : MonoBehaviour
+public class DataManager : Singleton<DataManager>
 {
-    private string weaponDataKey = "weaponDataKey";
-    public WeaponSO weaponSO;
-
-    public string SaveToString()
+    public void SaveData<T>(T data)
     {
-        WeaponData weaponData = new WeaponData();
-        return JsonUtility.ToJson(weaponData);
+        string json = JsonUtility.ToJson(data);
+        File.WriteAllText(Application.persistentDataPath + "/" + typeof(T).ToString() + ".json", json);
     }
 
-    public void SaveToPlayerPref(WeaponData weapon)
+    public T LoadData<T>() 
     {
-        PlayerPrefs.SetString(weaponDataKey, SaveToString());
+        string json = File.ReadAllText(Application.persistentDataPath + "/" + typeof(T).ToString() + ".json");
+        return JsonUtility.FromJson<T>(json);
     }
 
-    public WeaponData GetUnitData()
+    public void DeleteData<T>()
     {
-        string data = PlayerPrefs.GetString(weaponDataKey);
-        if (!string.IsNullOrEmpty(data))
-        {
-            WeaponData weaponData = JsonUtility.FromJson<WeaponData>(data);
-            return weaponData;
-        }
-        return null;
+        File.Delete(Application.persistentDataPath + "/" + typeof(T).ToString() + ".json");
     }
 
-
-    public WeaponData GetWeaponData(WeaponType weaponType)
+    public bool HasData<T>()
     {
-        List<WeaponData> weaponData = weaponSO.weapons;
-        for (int i = 0; i < weaponData.Count; i++)
-        {
-            if(weaponType == weaponData[i].weaponType)
-            {
-                return weaponData[i];
-            }
-        }
-        return null;
+        return File.Exists(Application.persistentDataPath + "/" + typeof(T).ToString() + ".json");
     }
+
 }

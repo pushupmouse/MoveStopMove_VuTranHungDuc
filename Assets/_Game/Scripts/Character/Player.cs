@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,8 +13,6 @@ public class Player : Character
     private int levelToAdjust = 0;
     private int levelSegment = 5;
     private GameObject previousTarget;
-    private DataManager dataManager;
-    public WeaponSO weaponSO;
 
 
     private void Awake()
@@ -21,6 +20,13 @@ public class Player : Character
         _transform = transform;
         _camera.SetPlayerReference(_transform);
         Level = 0;
+    }
+
+    private void Start()
+    {
+        GameManager.Instance.OnWeaponChanged -= OnWeaponChanged;
+        GameManager.Instance.OnWeaponChanged += OnWeaponChanged;
+        ChangeWeapon((WeaponType)GameManager.Instance.UserData.equippedWeapon);
     }
 
     private void FixedUpdate()
@@ -46,6 +52,11 @@ public class Player : Character
         }
 
         SetTargetIndicator();
+
+        if(Input.GetKeyDown(KeyCode.Escape))
+        {
+            ChangeWeapon(WeaponType.Knife);
+        }
     }
 
     private void MoveWithJoystick()
@@ -115,11 +126,19 @@ public class Player : Character
             levelToAdjust = 0;
         }
     }
-    
-    //private void SaveCurrentWeapon()
-    //{
-    //    WeaponData currentWeaponData = weaponSO.weapons[0];
-    //    dataManager.SaveToPlayerPref(currentWeaponData);
-    //    Debug.Log(currentWeaponData.weaponType);
-    //}
+
+    public void ChangeWeapon(WeaponType type)
+    {
+        if (currentWeapon != null)
+        {
+            Destroy(currentWeapon.gameObject);
+        }
+
+        currentWeapon = Instantiate(weaponSO.GetWeapon(type), holdWeapon.transform).GetComponent<Weapon>();
+    }
+
+    private void OnWeaponChanged()
+    {
+        ChangeWeapon((WeaponType)GameManager.Instance.UserData.equippedWeapon);
+    }
 }

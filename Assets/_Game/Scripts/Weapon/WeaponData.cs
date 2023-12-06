@@ -7,8 +7,9 @@ using UnityEngine;
 public class WeaponData
 {
     public WeaponType weaponType;
-    public Bullet bullet;
-    public Weapon weapon;
+    public GameObject bullet;
+    public GameObject weapon;
+    public GameObject shopPreview;
     public float range;
     public float speed;
 }

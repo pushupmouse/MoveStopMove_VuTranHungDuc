@@ -1,31 +1,52 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class BulletPool : Singleton<BulletPool>
 {
-    [SerializeField] private Bullet bullet;
+    [Serializable]
+    public class WeaponObject
+    {
+        public WeaponType weaponType;
+        public GameObject prefab;
+    }
+
+    [SerializeField] private List<WeaponObject> weaponObjects = new List<WeaponObject>();
     [SerializeField] private int amountToPool = 50;
 
-    private List<GameObject> pooledObjects = new List<GameObject>();
+    private Dictionary<WeaponType, List<GameObject>> pooledObjects = new Dictionary<WeaponType, List<GameObject>>();
 
     private void Start()
     {
-        for (int i = 0; i < amountToPool; i++)
+        for (int i = 0; i < weaponObjects.Count; i++)
         {
-            GameObject pooledObject = Instantiate(bullet.prefab);
-            pooledObject.SetActive(false);
-            pooledObjects.Add(pooledObject);
+            WeaponObject weaponObject = this.weaponObjects[i];
+            List<GameObject> weaponObjects = new List<GameObject>();
+
+            for (int j = 0; j < amountToPool; j++)
+            {
+                GameObject pooledObject = Instantiate(weaponObject.prefab);
+                pooledObject.SetActive(false);
+                weaponObjects.Add(pooledObject);
+            }
+
+            pooledObjects.Add(weaponObject.weaponType, weaponObjects);
         }
     }
 
-    public GameObject GetPooledObject()
+    public GameObject GetPooledObject(WeaponType weaponType)
     {
-        for (int i = 0; i < pooledObjects.Count; i++)
+        if (pooledObjects.ContainsKey(weaponType))
         {
-            if (!pooledObjects[i].activeInHierarchy)
+            List<GameObject> weaponObjects = pooledObjects[weaponType];
+
+            for (int i = 0; i < weaponObjects.Count; i++)
             {
-                return pooledObjects[i];
+                if (!weaponObjects[i].activeInHierarchy)
+                {
+                    return weaponObjects[i];
+                }
             }
         }
 

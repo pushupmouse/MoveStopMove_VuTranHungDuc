@@ -6,4 +6,14 @@ using UnityEngine;
 public class WeaponSO : ScriptableObject
 {
     public List<WeaponData> weapons;
+
+    public GameObject GetWeapon(WeaponType type)
+    {
+        return weapons[(int)type].weapon;
+    }
+
+    public GameObject GetWeaponPreview(int index)
+    {
+        return weapons[index].shopPreview;
+    }
 }

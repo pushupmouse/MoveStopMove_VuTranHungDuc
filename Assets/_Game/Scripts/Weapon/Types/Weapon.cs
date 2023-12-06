@@ -4,5 +4,5 @@ using UnityEngine;
 
 public class Weapon : MonoBehaviour
 {
-    protected WeaponType weaponType;
+    public WeaponType weaponType;
 }

@@ -22,11 +22,27 @@ public class Bot : Character
     public GameObject targetIndicator;
 
 
-
     private void Awake()
     {
         _transform = transform;
         Level = 0;
+    }
+
+    private void Start()
+    {
+        GetRandomWeapon();    
+    }
+
+    private void GetRandomWeapon()
+    {
+        if (currentWeapon != null)
+        {
+            Destroy(currentWeapon.gameObject);
+        }
+
+        int randomType = Random.Range(0, 5);
+
+        currentWeapon = Instantiate(weaponSO.GetWeapon((WeaponType)randomType), holdWeapon.transform).GetComponent<Weapon>();
     }
 
     private void FixedUpdate()
@@ -95,8 +111,13 @@ public class Bot : Character
 
     public override void OnHit()
     {
+        Invoke(nameof(Respawn), spawnDelay);
         base.OnHit();
-        Invoke(nameof(Activate), spawnDelay);
+    }
+
+    private void Respawn()
+    {
+        LevelManager.Instance.Respawn(this);
     }
 
     private void SearchWalkPoint()
@@ -141,10 +162,5 @@ public class Bot : Character
     public override void Deactivate()
     {
         base.Deactivate();
-    }
-
-    public override void OnKill()
-    {
-
     }
 }

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class LevelManager : Singleton<LevelManager>
 {
-    public void SpawnBot()
+    public void SpawnBots()
     {
         BotPool botPool = BotPool.Instance;
 
@@ -18,5 +18,10 @@ public class LevelManager : Singleton<LevelManager>
                 bot.Activate();
             }
         }
+    }
+
+    public void Respawn(Bot bot)
+    {
+        bot.Activate();
     }
 }
