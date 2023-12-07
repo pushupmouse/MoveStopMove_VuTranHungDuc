@@ -15,13 +15,4 @@ public class UserData
         equippedWeapon = 0;
         availableWeapons = new List<int> { 0 };
     }
-
-    //public UserData(int coins, int equippedWeapon, List<int> availableWeapons)
-    //{
-    //    this.coins = coins;
-    //    this.equippedWeapon = equippedWeapon;
-    //    this.availableWeapons = availableWeapons;
-    //}
-
-
 }

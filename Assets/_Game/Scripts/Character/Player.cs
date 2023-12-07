@@ -23,16 +23,9 @@ public class Player : Character
 
     private void Start()
     {
-        GameManager.Instance.OnWeaponChanged -= OnWeaponChanged;
-        GameManager.Instance.OnWeaponChanged += OnWeaponChanged;
-        LevelManager.Instance.OnGameVictory -= OnVictory;
-        LevelManager.Instance.OnGameVictory += OnVictory;
-        LevelManager.Instance.OnGameStart -= OnInit;
-        LevelManager.Instance.OnGameStart += OnInit;
-        GameOverScreenManager.Instance.OnEnterMenu -= ResetAnimation;
-        GameOverScreenManager.Instance.OnEnterMenu += ResetAnimation;
-        ChangeWeapon((WeaponType)GameManager.Instance.UserData.equippedWeapon);
-        
+        Unsubscribe();
+        Subscribe();
+        ChangeWeapon((WeaponType)GameManager.Instance.UserData.equippedWeapon);   
     }
 
     protected override void OnInit()
@@ -165,11 +158,34 @@ public class Player : Character
     private void OnVictory()
     {
         ChangeAnimation(MyConst.Animation.WIN);
-        gameObject.layer = LayerMask.NameToLayer(MyConst.Layer.INVINCIBLE);
+        GoImmune();
     }
 
     private void ResetAnimation()
     {
         ChangeAnimation(MyConst.Animation.IDLE);
+    }
+
+    private void GoImmune()
+    {
+        gameObject.layer = LayerMask.NameToLayer(MyConst.Layer.INVINCIBLE);
+    }
+
+    private void Subscribe()
+    {
+        GameManager.Instance.OnWeaponChanged += OnWeaponChanged;
+        LevelManager.Instance.OnGameVictory += OnVictory;
+        LevelManager.Instance.OnGameStart += OnInit;
+        LevelManager.Instance.OnEnterMenu += ResetAnimation;
+        LevelManager.Instance.OnEnterMenu += GoImmune;
+    }
+
+    private void Unsubscribe()
+    {
+        GameManager.Instance.OnWeaponChanged -= OnWeaponChanged;
+        LevelManager.Instance.OnGameVictory -= OnVictory;
+        LevelManager.Instance.OnGameStart -= OnInit;
+        LevelManager.Instance.OnEnterMenu -= ResetAnimation;
+        LevelManager.Instance.OnEnterMenu -= GoImmune;
     }
 }

@@ -9,29 +9,29 @@ public class UIManager : Singleton<UIManager>
 {
     [SerializeField] private Button playButton;
     [SerializeField] private Button weaponButton;
+    [SerializeField] private Button pauseButton;
     [SerializeField] private TextMeshProUGUI coinText;
-    
-    public GameObject toKillPanel;
+
+    private bool isPause;
+    public GameObject gamePanel;
     public TextMeshProUGUI toKillText;
     public GameObject menuPanel;
+   
 
     private void Start()
     {
-        WeaponShopManager.Instance.OnWeaponPurchase -= SetCoin;
-        WeaponShopManager.Instance.OnWeaponPurchase += SetCoin;
-        LevelManager.Instance.OnGameOver -= SetCoin;
-        LevelManager.Instance.OnGameOver += SetCoin;
-        LevelManager.Instance.OnGameVictory -= SetCoin;
-        LevelManager.Instance.OnGameVictory += SetCoin;
-        GameOverScreenManager.Instance.OnEnterMenu -= HideKillPanel;
-        GameOverScreenManager.Instance.OnEnterMenu += HideKillPanel;
+        Subscribe();
+        Unsubscribe();
         playButton.onClick.AddListener(OnPlayButtonClick);
         weaponButton.onClick.AddListener(OnWeaponButtonClick);
+        pauseButton.onClick.AddListener(OnPauseButtonClick);
+
         OnInit();
     }
 
     public void OnInit()
     {
+        isPause = false;
         SetCoin();
         menuPanel.SetActive(true);
         GameManager.Instance.ChangeState(GameManager.GameState.MainMenu);
@@ -53,13 +53,45 @@ public class UIManager : Singleton<UIManager>
     private void OnPlayButtonClick()
     {
         menuPanel.SetActive(false);
-        toKillPanel.SetActive(true);
+        gamePanel.SetActive(true);
         GameManager.Instance.ChangeState(GameManager.GameState.Gameplay);
         LevelManager.Instance.OnInit();
     }
 
-    private void HideKillPanel()
+    private void OnPauseButtonClick()
     {
-        toKillPanel.SetActive(false);
+        if(!isPause)
+        {
+            GameManager.Instance.PauseGame();
+            PauseMenuManager.Instance.pausePanel.SetActive(true);
+            isPause = true;
+        }
+        else
+        {
+            GameManager.Instance.ResumeGame();
+            PauseMenuManager.Instance.pausePanel.SetActive(false);
+            isPause = false;
+        }
+    }
+
+    private void HideGamePanel()
+    {
+        gamePanel.SetActive(false);
+    }
+
+    private void Subscribe()
+    {
+        WeaponShopManager.Instance.OnWeaponPurchase += SetCoin;
+        LevelManager.Instance.OnGameOver += SetCoin;
+        LevelManager.Instance.OnGameVictory += SetCoin;
+        LevelManager.Instance.OnEnterMenu += HideGamePanel;
+    }
+
+    private void Unsubscribe()
+    {
+        WeaponShopManager.Instance.OnWeaponPurchase -= SetCoin;
+        LevelManager.Instance.OnGameOver -= SetCoin;
+        LevelManager.Instance.OnGameVictory -= SetCoin;
+        LevelManager.Instance.OnEnterMenu -= HideGamePanel;
     }
 }

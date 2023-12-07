@@ -9,7 +9,8 @@ public class LevelManager : Singleton<LevelManager>
     public Action OnGameStart;
     public Action OnGameVictory;
     public Action OnGameOver;
-    
+    public Action OnEnterMenu;
+
     public void OnInit()
     {
         OnGameStart?.Invoke();

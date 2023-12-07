@@ -30,12 +30,8 @@ public class Bot : Character
 
     private void Start()
     {
-        LevelManager.Instance.OnGameVictory -= OnGameOver;
-        LevelManager.Instance.OnGameVictory += OnGameOver;
-        LevelManager.Instance.OnGameOver -= OnGameOver;
-        LevelManager.Instance.OnGameOver += OnGameOver;
-        LevelManager.Instance.OnGameStart -= OnInit;
-        LevelManager.Instance.OnGameStart += OnInit;
+        Unsubscribe();
+        Subscribe();
         GetRandomWeapon();    
     }
 
@@ -60,11 +56,6 @@ public class Bot : Character
 
     private void FixedUpdate()
     {
-        if(!GameManager.Instance.IsState(GameManager.GameState.Gameplay))
-        {
-            return;
-        }
-
         if (currentState != null)
         {
             currentState.OnExecute(this);
@@ -185,5 +176,21 @@ public class Bot : Character
     private void OnGameOver()
     {
         Deactivate();
+    }
+
+    private void Subscribe()
+    {
+        LevelManager.Instance.OnGameVictory += OnGameOver;
+        LevelManager.Instance.OnGameOver += OnGameOver;
+        LevelManager.Instance.OnGameStart += OnInit;
+        LevelManager.Instance.OnEnterMenu += OnGameOver;
+    }
+
+    private void Unsubscribe()
+    {
+        LevelManager.Instance.OnGameVictory -= OnGameOver;
+        LevelManager.Instance.OnGameOver -= OnGameOver;
+        LevelManager.Instance.OnGameStart -= OnInit;
+        LevelManager.Instance.OnEnterMenu -= OnGameOver;
     }
 }

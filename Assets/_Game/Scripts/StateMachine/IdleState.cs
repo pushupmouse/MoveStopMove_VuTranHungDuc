@@ -7,7 +7,7 @@ public class IdleState : IState
 {
     public void OnEnter(Bot bot)
     {
-
+        bot.ChangeAnimation(MyConst.Animation.IDLE);
     }
 
     public void OnExecute(Bot bot)

@@ -18,7 +18,7 @@ public class CameraFollow : MonoBehaviour
         FindPlayer();
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         if (player != null)
         {
@@ -28,9 +28,9 @@ public class CameraFollow : MonoBehaviour
 
     private void Follow()
     {
-        _camera.DOMoveX(player.position.x + offset.x, speed * Time.fixedDeltaTime);
-        _camera.DOMoveY(player.position.y + offset.y, speed * Time.fixedDeltaTime);
-        _camera.DOMoveZ(player.position.z + offset.z, speed * Time.fixedDeltaTime);
+        Vector3 desiredPosition = player.position + offset;
+        Vector3 smoothedPosition = Vector3.Lerp(transform.position, desiredPosition, speed * Time.fixedDeltaTime);
+        _camera.position = smoothedPosition;
     }
 
     public void FindPlayer()

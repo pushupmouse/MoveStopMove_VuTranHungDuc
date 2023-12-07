@@ -33,11 +33,8 @@ public class GameManager : Singleton<GameManager>
 
     private void Start()
     {
-        LevelManager.Instance.OnGameOver -= SaveCoins;
-        LevelManager.Instance.OnGameOver += SaveCoins;
-        LevelManager.Instance.OnGameVictory -= SaveCoins;
-        LevelManager.Instance.OnGameVictory += SaveCoins;
-
+        Unsubscribe();
+        Subscribe();
     }
 
     private void OnInit()
@@ -92,5 +89,35 @@ public class GameManager : Singleton<GameManager>
         userData.coins += coinsGained;
         coinsGained = 0;
         DataManager.Instance.SaveData(userData);
+    }
+
+    public void PauseGame()
+    {
+        ChangeState(GameState.Pause);
+        Time.timeScale = 0;
+    }
+
+    public void ResumeGame()
+    {
+        ChangeState(GameState.Gameplay);
+        Time.timeScale = 1;
+    }
+
+    public void GoBackToMenu()
+    {
+        ChangeState(GameState.MainMenu);
+        Time.timeScale = 1;
+    }
+
+    private void Subscribe()
+    {
+        LevelManager.Instance.OnGameOver += SaveCoins;
+        LevelManager.Instance.OnGameVictory += SaveCoins;
+    }
+
+    private void Unsubscribe()
+    {
+        LevelManager.Instance.OnGameOver -= SaveCoins;
+        LevelManager.Instance.OnGameVictory -= SaveCoins;
     }
 }

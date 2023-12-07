@@ -13,15 +13,10 @@ public class GameOverScreenManager : Singleton<GameOverScreenManager>
     [SerializeField] private Button playAgainButton;
     [SerializeField] private TextMeshProUGUI gameOverText;
 
-    public Action OnEnterMenu;
-
     private void Start()
     {
-        LevelManager.Instance.OnGameOver -= ShowMenuDefeat;
-        LevelManager.Instance.OnGameOver += ShowMenuDefeat;
-        LevelManager.Instance.OnGameVictory -= ShowMenuVictory;
-        LevelManager.Instance.OnGameVictory += ShowMenuVictory;
-
+        Unsubscribe();
+        Subscribe();
         menuButton.onClick.AddListener(OnMenuButtonClick);
         playAgainButton.onClick.AddListener(OnPlayAgainButtonClick);
     }
@@ -37,7 +32,8 @@ public class GameOverScreenManager : Singleton<GameOverScreenManager>
     {
         gameOverPanel.SetActive(false);
         UIManager.Instance.OnInit();
-        OnEnterMenu?.Invoke();
+        LevelManager.Instance.OnEnterMenu?.Invoke();
+        GameManager.Instance.GoBackToMenu();
     }
 
     private void ShowMenuVictory()
@@ -50,5 +46,17 @@ public class GameOverScreenManager : Singleton<GameOverScreenManager>
     {
         gameOverPanel.SetActive(true);
         gameOverText.SetText("YOU LOSE");
+    }
+
+    private void Subscribe()
+    {
+        LevelManager.Instance.OnGameOver += ShowMenuDefeat;
+        LevelManager.Instance.OnGameVictory += ShowMenuVictory;
+    }
+
+    private void Unsubscribe()
+    {
+        LevelManager.Instance.OnGameOver -= ShowMenuDefeat;
+        LevelManager.Instance.OnGameVictory -= ShowMenuVictory;
     }
 }
