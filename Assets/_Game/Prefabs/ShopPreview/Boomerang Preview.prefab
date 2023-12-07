@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1588343011556409499}
   - component: {fileID: 1968606506299950808}
   - component: {fileID: 5913942311710201088}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Boomerang Preview
   m_TagString: Untagged
   m_Icon: {fileID: 0}

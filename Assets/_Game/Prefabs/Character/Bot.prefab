@@ -944,7 +944,7 @@ GameObject:
   - component: {fileID: 834425744604584041}
   - component: {fileID: 834425744604584036}
   - component: {fileID: 834425744604584040}
-  - component: {fileID: 6143597560837496423}
+  - component: {fileID: 8666794942170431498}
   m_Layer: 8
   m_Name: Bot
   m_TagString: Untagged
@@ -1043,16 +1043,16 @@ MonoBehaviour:
   moveSpeed: 10
   rotateSpeed: 20
   _collider: {fileID: 834425744604584042}
+  weaponSO: {fileID: 11400000, guid: 3b812e42ded93f54abd724644f79cdb0, type: 2}
   throwPoint: {fileID: 834425745389062712}
   attackRange: 5
-  weaponSO: {fileID: 11400000, guid: 3b812e42ded93f54abd724644f79cdb0, type: 2}
   groundLayer:
     serializedVersion: 2
     m_Bits: 64
   walkPointRange: 60
   agent: {fileID: 834425744604584036}
   targetIndicator: {fileID: 8652537556304353165}
---- !u!114 &6143597560837496423
+--- !u!114 &8666794942170431498
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1065,7 +1065,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetColor: {r: 1, g: 0, b: 0, a: 1}
-  needBoxIndicator: 0
+  needBoxIndicator: 1
   needArrowIndicator: 1
   needDistanceText: 1
   indicator: {fileID: 0}

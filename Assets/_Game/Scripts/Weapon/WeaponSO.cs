@@ -16,4 +16,19 @@ public class WeaponSO : ScriptableObject
     {
         return weapons[index];
     }
+
+    public int GetPrice(WeaponType type)
+    {
+        return weapons[(int)type].price;
+    }
+
+    public float GetRange(WeaponType type)
+    {
+        return weapons[(int)type].range;
+    }
+
+    public float GetSpeed(WeaponType type)
+    {
+        return weapons[(int)type].speed;
+    }
 }

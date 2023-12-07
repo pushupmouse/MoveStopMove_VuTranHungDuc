@@ -11,13 +11,30 @@ public class UIManager : Singleton<UIManager>
     [SerializeField] private Button weaponButton;
     [SerializeField] private TextMeshProUGUI coinText;
     
+    public GameObject toKillPanel;
+    public TextMeshProUGUI toKillText;
     public GameObject menuPanel;
 
     private void Start()
     {
+        WeaponShopManager.Instance.OnWeaponPurchase -= SetCoin;
+        WeaponShopManager.Instance.OnWeaponPurchase += SetCoin;
+        LevelManager.Instance.OnGameOver -= SetCoin;
+        LevelManager.Instance.OnGameOver += SetCoin;
+        LevelManager.Instance.OnGameVictory -= SetCoin;
+        LevelManager.Instance.OnGameVictory += SetCoin;
+        GameOverScreenManager.Instance.OnEnterMenu -= HideKillPanel;
+        GameOverScreenManager.Instance.OnEnterMenu += HideKillPanel;
         playButton.onClick.AddListener(OnPlayButtonClick);
         weaponButton.onClick.AddListener(OnWeaponButtonClick);
+        OnInit();
+    }
+
+    public void OnInit()
+    {
         SetCoin();
+        menuPanel.SetActive(true);
+        GameManager.Instance.ChangeState(GameManager.GameState.MainMenu);
     }
 
     private void SetCoin()
@@ -36,7 +53,13 @@ public class UIManager : Singleton<UIManager>
     private void OnPlayButtonClick()
     {
         menuPanel.SetActive(false);
+        toKillPanel.SetActive(true);
         GameManager.Instance.ChangeState(GameManager.GameState.Gameplay);
-        LevelManager.Instance.SpawnBots();
+        LevelManager.Instance.OnInit();
+    }
+
+    private void HideKillPanel()
+    {
+        toKillPanel.SetActive(false);
     }
 }

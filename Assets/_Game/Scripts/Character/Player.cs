@@ -9,11 +9,10 @@ public class Player : Character
     [SerializeField] private Rigidbody rb;
     [SerializeField] private CameraFollow _camera;
     [SerializeField] private FloatingJoystick joystick;
-    
+    [SerializeField] private Vector3 startPosition;
     private int levelToAdjust = 0;
     private int levelSegment = 3;
     private GameObject previousTarget;
-
 
     private void Awake()
     {
@@ -26,7 +25,22 @@ public class Player : Character
     {
         GameManager.Instance.OnWeaponChanged -= OnWeaponChanged;
         GameManager.Instance.OnWeaponChanged += OnWeaponChanged;
+        LevelManager.Instance.OnGameVictory -= OnVictory;
+        LevelManager.Instance.OnGameVictory += OnVictory;
+        LevelManager.Instance.OnGameStart -= OnInit;
+        LevelManager.Instance.OnGameStart += OnInit;
+        GameOverScreenManager.Instance.OnEnterMenu -= ResetAnimation;
+        GameOverScreenManager.Instance.OnEnterMenu += ResetAnimation;
         ChangeWeapon((WeaponType)GameManager.Instance.UserData.equippedWeapon);
+        
+    }
+
+    protected override void OnInit()
+    {
+        base.OnInit();
+        _transform.position = startPosition;
+        SetAttributes((WeaponType)GameManager.Instance.UserData.equippedWeapon);
+        gameObject.layer = LayerMask.NameToLayer(MyConst.Layer.CHARACTER);
     }
 
     private void FixedUpdate()
@@ -111,7 +125,9 @@ public class Player : Character
 
     public override void Deactivate()
     {
-        
+        isDead = true;
+        ChangeAnimation(MyConst.Animation.DEAD);
+        LevelManager.Instance.OnPlayerDeath();
     }
 
     public override void OnKill()
@@ -125,6 +141,9 @@ public class Player : Character
             _camera.AdjustCamera(Level);
             levelToAdjust = 0;
         }
+
+        GameManager.Instance.OnBotKill();
+        LevelManager.Instance.OnBotKill();
     }
 
     public void ChangeWeapon(WeaponType type)
@@ -139,6 +158,18 @@ public class Player : Character
 
     private void OnWeaponChanged()
     {
-        ChangeWeapon((WeaponType)GameManager.Instance.UserData.equippedWeapon);
+        WeaponType type = (WeaponType)GameManager.Instance.UserData.equippedWeapon;
+        ChangeWeapon(type);
+    }
+    
+    private void OnVictory()
+    {
+        ChangeAnimation(MyConst.Animation.WIN);
+        gameObject.layer = LayerMask.NameToLayer(MyConst.Layer.INVINCIBLE);
+    }
+
+    private void ResetAnimation()
+    {
+        ChangeAnimation(MyConst.Animation.IDLE);
     }
 }

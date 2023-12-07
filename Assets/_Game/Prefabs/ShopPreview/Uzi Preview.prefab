@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2223495237958775834}
   - component: {fileID: 1405256679327363673}
   - component: {fileID: 6540097043269345665}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Uzi Preview
   m_TagString: Untagged
   m_Icon: {fileID: 0}

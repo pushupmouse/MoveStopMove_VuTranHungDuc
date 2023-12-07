@@ -10,6 +10,7 @@ public class GameManager : Singleton<GameManager>
 
     private GameState gameState;
     private UserData userData;
+    private int coinsGained = 0;
     public Action OnWeaponChanged;
 
     public UserData UserData { get => userData; set => userData = value; }
@@ -19,12 +20,29 @@ public class GameManager : Singleton<GameManager>
         MainMenu = 0,
         Gameplay = 1,
         WeaponSelect = 2,
+        Pause = 3,
+        GameOver = 4,
     }
 
     private void Awake()
     {
         GetUserData();
         ChangeState(GameState.MainMenu);
+        OnInit();
+    }
+
+    private void Start()
+    {
+        LevelManager.Instance.OnGameOver -= SaveCoins;
+        LevelManager.Instance.OnGameOver += SaveCoins;
+        LevelManager.Instance.OnGameVictory -= SaveCoins;
+        LevelManager.Instance.OnGameVictory += SaveCoins;
+
+    }
+
+    private void OnInit()
+    {
+        coinsGained = 0;
     }
 
     public void ChangeState(GameState state)
@@ -55,5 +73,24 @@ public class GameManager : Singleton<GameManager>
         userData.equippedWeapon = (int) weaponType;
         DataManager.Instance.SaveData(userData);
         OnWeaponChanged?.Invoke();
+    }
+
+    public void BuyWeapon(WeaponType weaponType) 
+    {
+        userData.availableWeapons.Add((int) weaponType);
+        userData.coins -= weaponSO.GetPrice(weaponType);
+        DataManager.Instance.SaveData(userData);
+    }
+
+    public void OnBotKill()
+    {
+        coinsGained++;
+    }
+
+    private void SaveCoins()
+    {
+        userData.coins += coinsGained;
+        coinsGained = 0;
+        DataManager.Instance.SaveData(userData);
     }
 }

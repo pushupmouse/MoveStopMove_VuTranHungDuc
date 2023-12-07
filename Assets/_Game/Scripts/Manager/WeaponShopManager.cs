@@ -11,15 +11,18 @@ public class WeaponShopManager : Singleton<WeaponShopManager>
     [SerializeField] private Button nextButton;
     [SerializeField] private Button previousButton;
     [SerializeField] private Button equipButton;
-    [SerializeField] private TextMeshProUGUI buttonText;
+    [SerializeField] private Button buyButton;
+    [SerializeField] private TextMeshProUGUI equipButtonText;
+    [SerializeField] private TextMeshProUGUI buyButtonText;
     [SerializeField] private WeaponSO weaponSO;
     [SerializeField] private GameObject weaponDisplay;
-    [SerializeField] private LayerMask layerUI;
 
     private GameObject displayWeapon;
     private int equippedWeaponIndex;
     private int weaponIndex;
     private int price;
+    private int coins;
+    public Action OnWeaponPurchase;
     public GameObject weaponPanel;
 
     private void Start()
@@ -28,18 +31,20 @@ public class WeaponShopManager : Singleton<WeaponShopManager>
         nextButton.onClick.AddListener(OnNextButtonClick);
         previousButton.onClick.AddListener(OnPreviousButtonClick);
         equipButton.onClick.AddListener(OnEquipButtonClick);
+        buyButton.onClick.AddListener(OnBuyButtonClick);
 
         OnInit();
     }
 
     public void OnInit()
     {
+        coins = GameManager.Instance.UserData.coins;
         equippedWeaponIndex = GameManager.Instance.UserData.equippedWeapon;
         weaponIndex = GameManager.Instance.UserData.equippedWeapon;
-        DisplayWeapon();
+        DisplayShopItem();
     }
 
-    private void DisplayWeapon()
+    private void DisplayShopItem()
     {
         if (displayWeapon != null)
         {
@@ -47,14 +52,21 @@ public class WeaponShopManager : Singleton<WeaponShopManager>
         }
 
         displayWeapon = Instantiate(weaponSO.GetWeaponByIndex(weaponIndex).shopPreview, weaponDisplay.transform);
-        displayWeapon.layer = (int)Mathf.Log(layerUI.value, 2);
 
-        SetButtonText();
+        SetButton();
     }
 
     private void OnEquipButtonClick()
     {
         GameManager.Instance.EquipWeapon((WeaponType)weaponIndex);
+        OnInit();
+    }
+
+    private void OnBuyButtonClick()
+    {
+        GameManager.Instance.BuyWeapon((WeaponType)weaponIndex);
+        GameManager.Instance.EquipWeapon((WeaponType)weaponIndex);
+        OnWeaponPurchase?.Invoke();
         OnInit();
     }
 
@@ -72,7 +84,7 @@ public class WeaponShopManager : Singleton<WeaponShopManager>
         {
             weaponIndex = 0;
         }
-        DisplayWeapon();
+        DisplayShopItem();
     }
 
     private void OnPreviousButtonClick()
@@ -82,49 +94,47 @@ public class WeaponShopManager : Singleton<WeaponShopManager>
         {
             weaponIndex = weaponSO.weapons.Count - 1;
         }
-        DisplayWeapon();
+        DisplayShopItem();
     }
 
-    private void SetButtonText()
+    private void SetButton()
     {
         price = weaponSO.GetWeaponByIndex(weaponIndex).price;
-        
 
         if (GameManager.Instance.UserData.availableWeapons.Contains(weaponIndex))
         {
-            if(weaponIndex == equippedWeaponIndex)
-            {
-                buttonText.SetText("EQUIPPED");
-                //gray text cant click
-                //bg darker
+            equipButton.gameObject.SetActive(true);
+            buyButton.gameObject.SetActive(false);
 
+            if (weaponIndex == equippedWeaponIndex)
+            {
+                equipButton.interactable = false;
+                equipButtonText.SetText("EQUIPPED");
             }
             else
             {
-                buttonText.SetText("EQUIP");
-                //normal text can click
-                //bg brighter
+                equipButton.interactable = true;
+                equipButtonText.SetText("EQUIP");
             }
         }
         else
         {
-            if(GameManager.Instance.UserData.coins >= price)
+            buyButton.gameObject.SetActive(true);
+            equipButton.gameObject.SetActive(false);
+
+            buyButtonText.SetText(price.ToString());
+
+            if (coins >= price)
             {
-                buttonText.SetText(price.ToString());
-                //normal text can click
-                //bg brighter green
+                buyButton.interactable = true;
+                buyButtonText.color = Color.black;
+
             }
             else
             {
-                buttonText.SetText("CAN'T BUY");
-                //red text (price) cant click
-                //bg darker green
+                buyButton.interactable = false;
+                buyButtonText.color = Color.red;
             }
         }
-
-        //if (GameManager.Instance.UserData.coins >= price)
-        //{
-
-        //}
     }
 }

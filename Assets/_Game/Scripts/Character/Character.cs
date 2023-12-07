@@ -22,8 +22,8 @@ public class Character : MonoBehaviour
     
     private int level;
     private float maxMagnitude = 0f;
-    private float cooldown = 0.5f;
-    private float idleCooldown = 1f;
+    protected float cooldown = 0.5f;
+    protected float idleCooldown = 1.5f;
     private float speedMult = 0.5f;
     private float rotateMult = 1f;
     private float scaleBonus = 0.05f;
@@ -55,9 +55,22 @@ public class Character : MonoBehaviour
     private void Awake()
     {
         _transform = transform;
+        OnInit();
     }
 
+    private void Start()
+    {
 
+    }
+
+    protected virtual void OnInit()
+    {
+        level = minLevel;
+        _transform.localScale = Vector3.one;
+        cooldown = 0.5f;
+        idleCooldown = 1.5f;
+        attackRange = 5f;
+    }
 
     internal void Moving()
     {
@@ -126,11 +139,11 @@ public class Character : MonoBehaviour
     }
 
 
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(transform.position, attackRange);
-    }
+    //private void OnDrawGizmos()
+    //{
+    //    Gizmos.color = Color.yellow;
+    //    Gizmos.DrawWireSphere(transform.position, attackRange);
+    //}
 
     internal void ExecuteAttack(Transform throwPoint, Vector3 direction)
     {
@@ -221,5 +234,12 @@ public class Character : MonoBehaviour
 
             animator.SetTrigger(currentAnimation);
         }
+    }
+
+    protected void SetAttributes(WeaponType type)
+    {
+        attackRange += weaponSO.GetRange(type);
+        cooldown -= weaponSO.GetSpeed(type);
+        idleCooldown -= weaponSO.GetSpeed(type);
     }
 }
