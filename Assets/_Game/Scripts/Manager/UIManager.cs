@@ -9,6 +9,7 @@ public class UIManager : Singleton<UIManager>
 {
     [SerializeField] private Button playButton;
     [SerializeField] private Button weaponButton;
+    [SerializeField] private Button skinButton;
     [SerializeField] private Button pauseButton;
     [SerializeField] private TextMeshProUGUI coinText;
 
@@ -22,10 +23,7 @@ public class UIManager : Singleton<UIManager>
     {
         Subscribe();
         Unsubscribe();
-        playButton.onClick.AddListener(OnPlayButtonClick);
-        weaponButton.onClick.AddListener(OnWeaponButtonClick);
-        pauseButton.onClick.AddListener(OnPauseButtonClick);
-
+        AddListeners();
         OnInit();
     }
 
@@ -48,6 +46,13 @@ public class UIManager : Singleton<UIManager>
         WeaponShopManager.Instance.weaponPanel.SetActive(true);
         WeaponShopManager.Instance.OnInit();
         GameManager.Instance.ChangeState(GameManager.GameState.WeaponSelect);
+    }
+
+    private void OnSkipButtonClick()
+    {
+        menuPanel.SetActive(false);
+        SkinShopManager.Instance.skinPanel.SetActive(true);
+        GameManager.Instance.ChangeState(GameManager.GameState.SkinSelect);
     }
 
     private void OnPlayButtonClick()
@@ -93,5 +98,13 @@ public class UIManager : Singleton<UIManager>
         LevelManager.Instance.OnGameOver -= SetCoin;
         LevelManager.Instance.OnGameVictory -= SetCoin;
         LevelManager.Instance.OnEnterMenu -= HideGamePanel;
+    }
+
+    private void AddListeners()
+    {
+        playButton.onClick.AddListener(OnPlayButtonClick);
+        weaponButton.onClick.AddListener(OnWeaponButtonClick);
+        skinButton.onClick.AddListener(OnSkipButtonClick);
+        pauseButton.onClick.AddListener(OnPauseButtonClick);
     }
 }

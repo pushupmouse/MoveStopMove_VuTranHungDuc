@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f484d34812c23c4ca568d05fe502a55, type: 3}
+  m_Name: ShieldSkinData
+  m_EditorClassIdentifier: 
+  skins:
+  - skinName: Book
+    skin: {fileID: 0}
+    shopPreview: {fileID: 2800000, guid: 350d28d5f0e124e478574494010b2001, type: 3}
+    price: 20
+  - skinName: Standard
+    skin: {fileID: 0}
+    shopPreview: {fileID: 2800000, guid: 824ab2d07bf68fc4d93f6b9b40fa14bb, type: 3}
+    price: 30
+  - skinName: Captain
+    skin: {fileID: 0}
+    shopPreview: {fileID: 2800000, guid: 5a1617ac722e69d409d8a47852a7550f, type: 3}
+    price: 40

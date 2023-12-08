@@ -13,13 +13,13 @@ public class PauseMenuManager : Singleton<PauseMenuManager>
 
     private void Start()
     {
-        menuButton.onClick.AddListener(OnMenuButtonClick);
-        resumeButton.onClick.AddListener(OnResumeButtonClick);
+        AddListeners();
     }
 
     private void OnMenuButtonClick()
     {
         pausePanel.SetActive(false);
+        UIManager.Instance.gamePanel.SetActive(false);
         UIManager.Instance.OnInit();
         LevelManager.Instance.OnEnterMenu?.Invoke();
         GameManager.Instance.GoBackToMenu();
@@ -29,5 +29,11 @@ public class PauseMenuManager : Singleton<PauseMenuManager>
     {
         pausePanel.SetActive(false);
         GameManager.Instance.ResumeGame();
+    }
+
+    private void AddListeners()
+    {
+        menuButton.onClick.AddListener(OnMenuButtonClick);
+        resumeButton.onClick.AddListener(OnResumeButtonClick);
     }
 }

@@ -31,6 +31,7 @@ public class GameOverScreenManager : Singleton<GameOverScreenManager>
     private void OnMenuButtonClick()
     {
         gameOverPanel.SetActive(false);
+        UIManager.Instance.gamePanel.SetActive(false);
         UIManager.Instance.OnInit();
         LevelManager.Instance.OnEnterMenu?.Invoke();
         GameManager.Instance.GoBackToMenu();

@@ -20,8 +20,9 @@ public class GameManager : Singleton<GameManager>
         MainMenu = 0,
         Gameplay = 1,
         WeaponSelect = 2,
-        Pause = 3,
-        GameOver = 4,
+        SkinSelect = 3,
+        Pause = 4,
+        GameOver = 5,
     }
 
     private void Awake()

@@ -20,19 +20,13 @@ public class WeaponShopManager : Singleton<WeaponShopManager>
     private GameObject displayWeapon;
     private int equippedWeaponIndex;
     private int weaponIndex;
-    private int price;
     private int coins;
     public Action OnWeaponPurchase;
     public GameObject weaponPanel;
 
     private void Start()
     {
-        closeButton.onClick.AddListener(OnCloseButtonClick);
-        nextButton.onClick.AddListener(OnNextButtonClick);
-        previousButton.onClick.AddListener(OnPreviousButtonClick);
-        equipButton.onClick.AddListener(OnEquipButtonClick);
-        buyButton.onClick.AddListener(OnBuyButtonClick);
-
+        AddListeners();
         OnInit();
     }
 
@@ -99,7 +93,7 @@ public class WeaponShopManager : Singleton<WeaponShopManager>
 
     private void SetButton()
     {
-        price = weaponSO.GetWeaponByIndex(weaponIndex).price;
+        int price = weaponSO.GetWeaponByIndex(weaponIndex).price;
 
         if (GameManager.Instance.UserData.availableWeapons.Contains(weaponIndex))
         {
@@ -136,5 +130,14 @@ public class WeaponShopManager : Singleton<WeaponShopManager>
                 buyButtonText.color = Color.red;
             }
         }
+    }
+
+    private void AddListeners()
+    {
+        closeButton.onClick.AddListener(OnCloseButtonClick);
+        nextButton.onClick.AddListener(OnNextButtonClick);
+        previousButton.onClick.AddListener(OnPreviousButtonClick);
+        equipButton.onClick.AddListener(OnEquipButtonClick);
+        buyButton.onClick.AddListener(OnBuyButtonClick);
     }
 }

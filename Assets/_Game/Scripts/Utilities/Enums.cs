@@ -15,3 +15,10 @@ public enum WeaponType
     Knife = 4,
     Uzi = 5,
 }
+
+public enum SkinType
+{
+    Hat = 0,
+    Pants = 1,
+    Shield = 2,
+}
