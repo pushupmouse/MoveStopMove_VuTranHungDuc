@@ -25,6 +25,8 @@ public class GameOverScreenManager : Singleton<GameOverScreenManager>
     {
         gameOverPanel.SetActive(false);
         GameManager.Instance.ChangeState(GameManager.GameState.Gameplay);
+        GameManager.Instance.SaveCoins();
+        UIManager.Instance.SetCoin();
         LevelManager.Instance.OnInit();
     }
 

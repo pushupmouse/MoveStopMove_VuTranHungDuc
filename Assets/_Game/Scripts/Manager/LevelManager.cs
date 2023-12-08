@@ -6,6 +6,7 @@ using UnityEngine;
 public class LevelManager : Singleton<LevelManager>
 {
     private int botsToKill = 5;
+    private int coinPerKill = 1;
     public Action OnGameStart;
     public Action OnGameVictory;
     public Action OnGameOver;
@@ -50,6 +51,7 @@ public class LevelManager : Singleton<LevelManager>
     {
         botsToKill--;
         UIManager.Instance.toKillText.SetText(botsToKill.ToString());
+        GameManager.Instance.GainCoins(coinPerKill);
         if (botsToKill == 0)
         {
             GameManager.Instance.ChangeState(GameManager.GameState.GameOver);

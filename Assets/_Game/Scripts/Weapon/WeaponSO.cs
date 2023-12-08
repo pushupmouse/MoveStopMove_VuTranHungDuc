@@ -32,3 +32,13 @@ public class WeaponSO : ScriptableObject
         return weapons[(int)type].speed;
     }
 }
+
+public enum WeaponType
+{
+    Axe = 0,
+    Boomerang = 1,
+    Candy = 2,
+    Hammer = 3,
+    Knife = 4,
+    Uzi = 5,
+}

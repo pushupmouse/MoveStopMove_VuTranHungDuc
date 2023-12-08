@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f484d34812c23c4ca568d05fe502a55, type: 3}
   m_Name: ShieldSkinData
   m_EditorClassIdentifier: 
+  skinType: 2
   skins:
   - skinName: Book
     skin: {fileID: 0}

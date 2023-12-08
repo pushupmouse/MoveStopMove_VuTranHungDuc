@@ -19,6 +19,9 @@ public class UserData
     {
         coins = 0;
         equippedWeapon = 0;
+        equippedHat = -1;
+        equippedPants = -1;
+        equippedShield = -1;
         availableWeapons = new List<int>();
         availableHats = new List<int>();
         availablePants = new List<int>();

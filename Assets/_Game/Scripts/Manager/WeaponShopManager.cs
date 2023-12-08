@@ -52,14 +52,14 @@ public class WeaponShopManager : Singleton<WeaponShopManager>
 
     private void OnEquipButtonClick()
     {
-        GameManager.Instance.EquipWeapon((WeaponType)weaponIndex);
+        EquipmentManager.Instance.EquipWeapon((WeaponType)weaponIndex);
         OnInit();
     }
 
     private void OnBuyButtonClick()
     {
-        GameManager.Instance.BuyWeapon((WeaponType)weaponIndex);
-        GameManager.Instance.EquipWeapon((WeaponType)weaponIndex);
+        EquipmentManager.Instance.BuyWeapon((WeaponType)weaponIndex);
+        EquipmentManager.Instance.EquipWeapon((WeaponType)weaponIndex);
         OnWeaponPurchase?.Invoke();
         OnInit();
     }

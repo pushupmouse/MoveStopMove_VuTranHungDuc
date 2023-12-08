@@ -9,9 +9,8 @@ public class GameManager : Singleton<GameManager>
     [SerializeField] private WeaponSO weaponSO;
 
     private GameState gameState;
-    private UserData userData;
     private int coinsGained = 0;
-    public Action OnWeaponChanged;
+    public UserData userData;
 
     public UserData UserData { get => userData; set => userData = value; }
 
@@ -66,26 +65,14 @@ public class GameManager : Singleton<GameManager>
         }
     }
 
-    public void EquipWeapon(WeaponType weaponType)
+
+
+    public void GainCoins(int amount)
     {
-        userData.equippedWeapon = (int) weaponType;
-        DataManager.Instance.SaveData(userData);
-        OnWeaponChanged?.Invoke();
+        coinsGained += amount;
     }
 
-    public void BuyWeapon(WeaponType weaponType) 
-    {
-        userData.availableWeapons.Add((int) weaponType);
-        userData.coins -= weaponSO.GetPrice(weaponType);
-        DataManager.Instance.SaveData(userData);
-    }
-
-    public void OnBotKill()
-    {
-        coinsGained++;
-    }
-
-    private void SaveCoins()
+    public void SaveCoins()
     {
         userData.coins += coinsGained;
         coinsGained = 0;

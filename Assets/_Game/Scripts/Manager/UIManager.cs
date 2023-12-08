@@ -21,8 +21,8 @@ public class UIManager : Singleton<UIManager>
 
     private void Start()
     {
-        Subscribe();
         Unsubscribe();
+        Subscribe();
         AddListeners();
         OnInit();
     }
@@ -35,7 +35,7 @@ public class UIManager : Singleton<UIManager>
         GameManager.Instance.ChangeState(GameManager.GameState.MainMenu);
     }
 
-    private void SetCoin()
+    public void SetCoin()
     {
         coinText.SetText(GameManager.Instance.UserData.coins.ToString());
     }

@@ -135,7 +135,6 @@ public class Player : Character
             levelToAdjust = 0;
         }
 
-        GameManager.Instance.OnBotKill();
         LevelManager.Instance.OnBotKill();
     }
 
@@ -173,7 +172,7 @@ public class Player : Character
 
     private void Subscribe()
     {
-        GameManager.Instance.OnWeaponChanged += OnWeaponChanged;
+        EquipmentManager.Instance.OnWeaponChanged += OnWeaponChanged;
         LevelManager.Instance.OnGameVictory += OnVictory;
         LevelManager.Instance.OnGameStart += OnInit;
         LevelManager.Instance.OnEnterMenu += ResetAnimation;
@@ -182,7 +181,7 @@ public class Player : Character
 
     private void Unsubscribe()
     {
-        GameManager.Instance.OnWeaponChanged -= OnWeaponChanged;
+        EquipmentManager.Instance.OnWeaponChanged -= OnWeaponChanged;
         LevelManager.Instance.OnGameVictory -= OnVictory;
         LevelManager.Instance.OnGameStart -= OnInit;
         LevelManager.Instance.OnEnterMenu -= ResetAnimation;
