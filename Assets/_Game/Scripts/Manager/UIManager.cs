@@ -87,6 +87,7 @@ public class UIManager : Singleton<UIManager>
     private void Subscribe()
     {
         WeaponShopManager.Instance.OnWeaponPurchase += SetCoin;
+        SkinShopManager.Instance.OnSkinPurchase += SetCoin;
         LevelManager.Instance.OnGameOver += SetCoin;
         LevelManager.Instance.OnGameVictory += SetCoin;
         LevelManager.Instance.OnEnterMenu += HideGamePanel;
@@ -95,6 +96,7 @@ public class UIManager : Singleton<UIManager>
     private void Unsubscribe()
     {
         WeaponShopManager.Instance.OnWeaponPurchase -= SetCoin;
+        SkinShopManager.Instance.OnSkinPurchase -= SetCoin;
         LevelManager.Instance.OnGameOver -= SetCoin;
         LevelManager.Instance.OnGameVictory -= SetCoin;
         LevelManager.Instance.OnEnterMenu -= HideGamePanel;

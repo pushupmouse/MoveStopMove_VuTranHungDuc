@@ -16,37 +16,46 @@ MonoBehaviour:
   skins:
   - skinName: Batman
     skin: {fileID: 0}
+    skinMaterial: {fileID: 2100000, guid: 58a4bce35d36e9d4ab9312b35e3ea784, type: 2}
     shopPreview: {fileID: 2800000, guid: 7bfe5fe84305b77408d3d8df6702a613, type: 3}
     price: 10
   - skinName: Chambi
     skin: {fileID: 0}
+    skinMaterial: {fileID: 2100000, guid: cfb855d3fe8fc2a4ebf8dccc7298f49e, type: 2}
     shopPreview: {fileID: 2800000, guid: 0db93626a57af5647af1ed05725f82b8, type: 3}
     price: 10
   - skinName: Comy
     skin: {fileID: 0}
+    skinMaterial: {fileID: 2100000, guid: c43a9ee3c11808e41be58e82435aba74, type: 2}
     shopPreview: {fileID: 2800000, guid: d3d865a65d62da9429e5579ce7c6f451, type: 3}
     price: 20
   - skinName: Dabao
     skin: {fileID: 0}
+    skinMaterial: {fileID: 2100000, guid: 5a09d13892f2921458dc07607b92c106, type: 2}
     shopPreview: {fileID: 2800000, guid: 39fb08820201c5045b243526d0be13b4, type: 3}
     price: 20
   - skinName: Onion
     skin: {fileID: 0}
+    skinMaterial: {fileID: 2100000, guid: 2f85b73e5183925478f6fcafe0e479e6, type: 2}
     shopPreview: {fileID: 2800000, guid: 5b89e9a892ca03a4c9ed4f0d346f5ce1, type: 3}
     price: 20
   - skinName: Pokemon
     skin: {fileID: 0}
+    skinMaterial: {fileID: 2100000, guid: 56d89e3b2045b7f48a2bc165d396a6d4, type: 2}
     shopPreview: {fileID: 2800000, guid: 5344ec9f0d23e33448acd57323ad1897, type: 3}
     price: 30
   - skinName: Rainbow
     skin: {fileID: 0}
+    skinMaterial: {fileID: 2100000, guid: ec8eb20efb8a0da468cc160a0628cf96, type: 2}
     shopPreview: {fileID: 2800000, guid: a5d307d187878594289ba4b80ce222cd, type: 3}
     price: 30
   - skinName: Skull
     skin: {fileID: 0}
+    skinMaterial: {fileID: 2100000, guid: 74a0a864224a072468f8da50ef5e512f, type: 2}
     shopPreview: {fileID: 2800000, guid: de9ddba2ea0a5f747b67d3df66277d8f, type: 3}
     price: 30
   - skinName: Vantim
     skin: {fileID: 0}
+    skinMaterial: {fileID: 2100000, guid: a6b6eb828d821e14e99215d385c0f43d, type: 2}
     shopPreview: {fileID: 2800000, guid: fd4b34e7fdfdd41468b29de6ee79c63f, type: 3}
     price: 40

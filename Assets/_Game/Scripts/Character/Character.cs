@@ -11,12 +11,18 @@ public class Character : MonoBehaviour
     [SerializeField] private Animator animator;
     [SerializeField] private LayerMask characterLayer;
     [SerializeField] protected GameObject holdWeapon;
+    [SerializeField] protected GameObject holdHat;
+    [SerializeField] protected GameObject holdShield;
+    [SerializeField] protected SkinnedMeshRenderer pantsRenderer;
     [SerializeField] protected int minLevel = 1;
     [SerializeField] protected int maxLevel = 15;
     [SerializeField] protected float moveSpeed;
     [SerializeField] protected float rotateSpeed;
     [SerializeField] protected Collider _collider;
     [SerializeField] protected WeaponSO weaponSO;
+    [SerializeField] protected SkinSO hatSO;
+    [SerializeField] protected SkinSO pantsSO;
+    [SerializeField] protected SkinSO shieldSO;
     [SerializeField] internal Transform throwPoint;
     [SerializeField] internal float attackRange = 1f;
     
@@ -35,6 +41,9 @@ public class Character : MonoBehaviour
     protected Vector3 direction;
     protected bool isDead;
     protected Weapon currentWeapon;
+    protected GameObject currentHat;
+    protected GameObject currentPants;
+    protected GameObject currentShield;
     internal float timer = 0f;
     internal float idleTimer = 0f;
     internal bool canAttack = true;
@@ -137,13 +146,6 @@ public class Character : MonoBehaviour
             }
         }
     }
-
-
-    //private void OnDrawGizmos()
-    //{
-    //    Gizmos.color = Color.yellow;
-    //    Gizmos.DrawWireSphere(transform.position, attackRange);
-    //}
 
     internal void ExecuteAttack(Transform throwPoint, Vector3 direction)
     {

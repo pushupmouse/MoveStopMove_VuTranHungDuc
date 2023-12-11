@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Reflection;
 using TreeEditor;
 using UnityEngine;
 using UnityEngine.AI;
@@ -33,6 +34,9 @@ public class Bot : Character
         Unsubscribe();
         Subscribe();
         GetRandomWeapon();    
+        GetRandomHat();
+        GetRandomPants();
+        GetRandomShield();
     }
 
     protected override void OnInit()
@@ -48,10 +52,56 @@ public class Bot : Character
             Destroy(currentWeapon.gameObject);
         }
 
-        int randomType = Random.Range(0, 5);
+        int randomType = Random.Range(0, weaponSO.weapons.Count - 1);
 
         currentWeapon = Instantiate(weaponSO.GetWeapon((WeaponType)randomType), holdWeapon.transform).GetComponent<Weapon>();
         SetAttributes((WeaponType)randomType);
+    }
+
+    private void GetRandomHat()
+    {
+        if (currentHat != null)
+        {
+            Destroy(currentHat.gameObject);
+        }
+
+        int randomIndex = Random.Range(-1, hatSO.skins.Count - 1);
+
+        if(randomIndex == -1)
+        {
+            return;
+        }
+
+        currentHat = Instantiate(hatSO.GetSkinByIndex(randomIndex).skin, holdHat.transform);
+    }
+
+    private void GetRandomPants()
+    {
+        int randomIndex = Random.Range(-1, pantsSO.skins.Count - 1);
+
+        if (randomIndex == -1)
+        {
+            return;
+        }
+
+        pantsRenderer.material = pantsSO.GetSkinByIndex(randomIndex).skinMaterial;
+    }
+
+    private void GetRandomShield ()
+    {
+        if (currentShield != null)
+        {
+            Destroy(currentShield.gameObject);
+        }
+
+        int randomIndex = Random.Range(-1, shieldSO.skins.Count - 1);
+
+        if (randomIndex == -1)
+        {
+            return;
+        }
+
+        currentShield = Instantiate(shieldSO.GetSkinByIndex(randomIndex).skin, holdShield.transform);
     }
 
     private void FixedUpdate()

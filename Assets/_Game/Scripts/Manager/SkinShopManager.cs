@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Reflection;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -28,8 +29,12 @@ public class SkinShopManager : Singleton<SkinShopManager>
     private int hatIndex;
     private int pantsIndex;
     private int shieldIndex;
+    private bool isChoosingHat;
+    private bool isChoosingPants;
+    private bool isChoosingShield;
     private int coins;
     public GameObject skinPanel;
+    public Action OnSkinPurchase;
 
     private void Start()
     {
@@ -47,11 +52,15 @@ public class SkinShopManager : Singleton<SkinShopManager>
         hatIndex = GameManager.Instance.UserData.equippedHat;
         pantsIndex = GameManager.Instance.UserData.equippedPants;
         shieldIndex = GameManager.Instance.UserData.equippedShield;
+
+        ResetButton();
     }
 
     private void OnHatButtonClick()
     {
         ClearDisplayItems();
+
+        isChoosingHat = true;
 
         SetDisplayItems(hats, SkinType.Hat);
     }
@@ -60,12 +69,16 @@ public class SkinShopManager : Singleton<SkinShopManager>
     {
         ClearDisplayItems();
 
+        isChoosingPants = true;
+
         SetDisplayItems(pants, SkinType.Pants);
     }
 
     private void OnShieldButtonClick()
     {
         ClearDisplayItems();
+
+        isChoosingShield = true;
 
         SetDisplayItems(shields, SkinType.Shield);
     }
@@ -93,6 +106,10 @@ public class SkinShopManager : Singleton<SkinShopManager>
 
             displayItems.Clear();
         }
+
+        isChoosingHat = false;
+        isChoosingPants = false;
+        isChoosingShield = false;
     }
 
     private void SetDisplayItems(SkinSO skin, SkinType skinType)
@@ -119,14 +136,46 @@ public class SkinShopManager : Singleton<SkinShopManager>
 
     private void OnEquipButtonClick()
     {
-        //add method in equip man
-        //oninit
+        if (isChoosingHat)
+        {
+            EquipmentManager.Instance.EquipHat(hatIndex);
+        }
+
+        if (isChoosingPants)
+        {
+            EquipmentManager.Instance.EquipPants(pantsIndex);
+        }
+
+        if (isChoosingShield)
+        {
+            EquipmentManager.Instance.EquipShield(shieldIndex);
+        }
+
+        OnInit();
     }
 
     private void OnBuyButtonClick()
     {
-        //add method in equip man
-        //oninit
+        if (isChoosingHat)
+        {
+            EquipmentManager.Instance.BuyHat(hatIndex);
+            EquipmentManager.Instance.EquipHat(hatIndex);
+        }
+
+        if (isChoosingPants)
+        {
+            EquipmentManager.Instance.BuyPants(pantsIndex);
+            EquipmentManager.Instance.EquipPants(pantsIndex);
+        }
+
+        if (isChoosingShield)
+        {
+            EquipmentManager.Instance.BuyShield(shieldIndex);
+            EquipmentManager.Instance.EquipShield(shieldIndex);
+        }
+
+        OnSkinPurchase?.Invoke();
+        OnInit();
     }
 
     private void SetButton(SkinSO skin, int index, SkinType skinType)
@@ -250,6 +299,24 @@ public class SkinShopManager : Singleton<SkinShopManager>
                 break;
         }
         return availableSkin;
+    }
+
+    private void ResetButton()
+    {
+        if (isChoosingHat)
+        {
+            SetButton(hats, equippedHatIndex, SkinType.Hat);
+        }
+
+        if (isChoosingPants)
+        {
+            SetButton(pants, equippedPantsIndex, SkinType.Pants);
+        }
+
+        if (isChoosingShield)
+        {
+            SetButton(shields, equippedShieldIndex, SkinType.Shield);
+        }
     }
 
     private void AddListeners()

@@ -6,9 +6,14 @@ using UnityEngine;
 public class EquipmentManager : Singleton<EquipmentManager>
 {
     [SerializeField] private WeaponSO weaponSO;
+    [SerializeField] private SkinSO hatSO;
+    [SerializeField] private SkinSO pantsSO;
+    [SerializeField] private SkinSO shieldSO;
 
     public Action OnWeaponChanged;
-
+    public Action OnHatChanged;
+    public Action OnPantsChanged;
+    public Action OnShieldChanged;
 
     public void EquipWeapon(WeaponType weaponType)
     {
@@ -24,5 +29,45 @@ public class EquipmentManager : Singleton<EquipmentManager>
         DataManager.Instance.SaveData(GameManager.Instance.userData);
     }
 
+    public void EquipHat(int index)
+    {
+        GameManager.Instance.userData.equippedHat = index;
+        DataManager.Instance.SaveData(GameManager.Instance.userData);
+        OnHatChanged?.Invoke();
+    }
 
+    public void EquipPants(int index)
+    {
+        GameManager.Instance.userData.equippedPants = index;
+        DataManager.Instance.SaveData(GameManager.Instance.userData);
+        OnPantsChanged?.Invoke();
+    }   
+
+    public void EquipShield(int index)
+    {
+        GameManager.Instance.userData.equippedShield = index;
+        DataManager.Instance.SaveData(GameManager.Instance.userData);
+        OnShieldChanged?.Invoke();
+    }
+
+    public void BuyHat(int index)
+    {
+        GameManager.Instance.userData.availableHats.Add(index);
+        GameManager.Instance.userData.coins -= hatSO.GetPrice(index);
+        DataManager.Instance.SaveData(GameManager.Instance.userData);
+    }
+
+    public void BuyPants(int index)
+    {
+        GameManager.Instance.userData.availablePants.Add(index);
+        GameManager.Instance.userData.coins -= pantsSO.GetPrice(index);
+        DataManager.Instance.SaveData(GameManager.Instance.userData);
+    }
+
+    public void BuyShield(int index)
+    {
+        GameManager.Instance.userData.availableShields.Add(index);
+        GameManager.Instance.userData.coins -= shieldSO.GetPrice(index);
+        DataManager.Instance.SaveData(GameManager.Instance.userData);
+    }
 }

@@ -8,6 +8,11 @@ public class SkinSO : ScriptableObject
     public SkinType skinType;
     public List<SkinData> skins;
 
+    public SkinData GetSkinByIndex(int index)
+    {
+        return skins[index];
+    }
+
     public int GetPrice(int index)
     {
         return skins[index].price;

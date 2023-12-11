@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Reflection;
 using UnityEngine;
 
 
@@ -25,7 +26,10 @@ public class Player : Character
     {
         Unsubscribe();
         Subscribe();
-        ChangeWeapon((WeaponType)GameManager.Instance.UserData.equippedWeapon);   
+        ChangeWeapon((WeaponType)GameManager.Instance.UserData.equippedWeapon);
+        ChangeHat(GameManager.Instance.UserData.equippedHat);
+        ChangePants(GameManager.Instance.UserData.equippedPants);
+        ChangeShield(GameManager.Instance.UserData.equippedShield);
     }
 
     protected override void OnInit()
@@ -59,11 +63,6 @@ public class Player : Character
         }
 
         SetTargetIndicator();
-
-        if(Input.GetKeyDown(KeyCode.Escape))
-        {
-            ChangeWeapon(WeaponType.Knife);
-        }
     }
 
     private void MoveWithJoystick()
@@ -148,12 +147,70 @@ public class Player : Character
         currentWeapon = Instantiate(weaponSO.GetWeapon(type), holdWeapon.transform).GetComponent<Weapon>();
     }
 
+    public void ChangeHat(int index)
+    {
+        if(index == -1)
+        {
+            return;
+        }
+        
+        if(currentHat != null)
+        {
+            Destroy(currentHat.gameObject);
+        }
+
+        currentHat = Instantiate(hatSO.GetSkinByIndex(index).skin, holdHat.transform);
+    }
+
+    public void ChangePants(int index)
+    {
+        if (index == -1)
+        {
+            return;
+        }
+
+        pantsRenderer.material = pantsSO.GetSkinByIndex(index).skinMaterial;
+    }
+
+    public void ChangeShield(int index)
+    {
+        if (index == -1)
+        {
+            return;
+        }
+
+        if(currentShield != null)
+        {
+            Destroy(currentShield.gameObject);
+        }
+
+        currentShield = Instantiate(shieldSO.GetSkinByIndex(index).skin, holdShield.transform);
+    }
+
     private void OnWeaponChanged()
     {
         WeaponType type = (WeaponType)GameManager.Instance.UserData.equippedWeapon;
         ChangeWeapon(type);
     }
     
+    private void OnHatChanged()
+    {
+        int index = GameManager.Instance.UserData.equippedHat;
+        ChangeHat(index);
+    }
+
+    private void OnPantsChanged()
+    {
+        int index = GameManager.Instance.UserData.equippedPants;
+        ChangePants(index);
+    }
+
+    private void OnShieldChanged()
+    {
+        int index = GameManager.Instance.UserData.equippedShield;
+        ChangeShield(index);
+    }
+
     private void OnVictory()
     {
         ChangeAnimation(MyConst.Animation.WIN);
@@ -173,6 +230,9 @@ public class Player : Character
     private void Subscribe()
     {
         EquipmentManager.Instance.OnWeaponChanged += OnWeaponChanged;
+        EquipmentManager.Instance.OnHatChanged += OnHatChanged;
+        EquipmentManager.Instance.OnPantsChanged += OnPantsChanged;
+        EquipmentManager.Instance.OnShieldChanged += OnShieldChanged;
         LevelManager.Instance.OnGameVictory += OnVictory;
         LevelManager.Instance.OnGameStart += OnInit;
         LevelManager.Instance.OnEnterMenu += ResetAnimation;
@@ -182,6 +242,9 @@ public class Player : Character
     private void Unsubscribe()
     {
         EquipmentManager.Instance.OnWeaponChanged -= OnWeaponChanged;
+        EquipmentManager.Instance.OnHatChanged -= OnHatChanged;
+        EquipmentManager.Instance.OnPantsChanged -= OnPantsChanged;
+        EquipmentManager.Instance.OnShieldChanged -= OnShieldChanged;
         LevelManager.Instance.OnGameVictory -= OnVictory;
         LevelManager.Instance.OnGameStart -= OnInit;
         LevelManager.Instance.OnEnterMenu -= ResetAnimation;

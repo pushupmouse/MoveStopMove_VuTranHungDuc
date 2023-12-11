@@ -242,17 +242,24 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   holdWeapon: {fileID: 894352213284771291}
+  holdHat: {fileID: 7254202031506850994}
+  holdShield: {fileID: 7335817687315533406}
+  pantsRenderer: {fileID: 8243324453545459635}
   minLevel: 1
   maxLevel: 15
   moveSpeed: 10
   rotateSpeed: 20
   _collider: {fileID: 775129699790012270}
+  weaponSO: {fileID: 11400000, guid: 3b812e42ded93f54abd724644f79cdb0, type: 2}
+  hatSO: {fileID: 11400000, guid: 90ac5a2b1c1e98d479b8dc8cb50c535b, type: 2}
+  pantsSO: {fileID: 11400000, guid: c9dc6d9fa4994ab4794798551def9ec3, type: 2}
+  shieldSO: {fileID: 11400000, guid: 922c1d69780de7e438bc9b8bf38f60c6, type: 2}
   throwPoint: {fileID: 775129698625324774}
   attackRange: 5
   rb: {fileID: 775129699790012269}
   _camera: {fileID: 0}
   joystick: {fileID: 0}
-  weaponSO: {fileID: 11400000, guid: 3b812e42ded93f54abd724644f79cdb0, type: 2}
+  startPosition: {x: 0, y: 0, z: 0}
 --- !u!1 &779804771923182224
 GameObject:
   m_ObjectHideFlags: 0
@@ -281,6 +288,7 @@ Transform:
   m_LocalScale: {x: 0.9999999, y: 0.99999976, z: 1.0000002}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 9130449282843546019}
   - {fileID: 6690224743554548587}
   - {fileID: 1919667946686029799}
   m_Father: {fileID: 7216072744608290880}
@@ -538,7 +546,7 @@ Transform:
   m_Children:
   - {fileID: 1173448264627122884}
   m_Father: {fileID: 4470265803942073240}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 22.200253, y: -14.451654, z: -14.390189}
 --- !u!1 &1668355859098091734
 GameObject:
@@ -1455,7 +1463,7 @@ Transform:
   m_Children:
   - {fileID: 3229293817338166051}
   m_Father: {fileID: 4470265803942073240}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 25.44378, y: -31.598713, z: -65.25193}
 --- !u!1 &4894609436996668760
 GameObject:
@@ -1991,7 +1999,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4720853561263779666}
   m_Layer: 0
-  m_Name: mixamorig:HeadTop_End
+  m_Name: Hold Hat
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2013,6 +2021,37 @@ Transform:
   m_Father: {fileID: 2575036407731921367}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: -0.00000012104228, y: -0.00000008880488, z: -0.00000004622719}
+--- !u!1 &7335817687315533406
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 9130449282843546019}
+  m_Layer: 0
+  m_Name: Hold Shield
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &9130449282843546019
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7335817687315533406}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4470265803942073240}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7718468608740052613
 GameObject:
   m_ObjectHideFlags: 0

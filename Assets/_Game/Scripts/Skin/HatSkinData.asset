@@ -12,36 +12,37 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f484d34812c23c4ca568d05fe502a55, type: 3}
   m_Name: HatSkinData
   m_EditorClassIdentifier: 
+  skinType: 0
   skins:
   - skinName: Arrow
-    skin: {fileID: 0}
+    skin: {fileID: 2077859600114002770, guid: c9615e6e50784134da1c58dc9ad1ab86, type: 3}
     shopPreview: {fileID: 2800000, guid: 65e4144e45d340f4daf4b63710bd0c2e, type: 3}
     price: 10
   - skinName: Cowboy
-    skin: {fileID: 0}
+    skin: {fileID: 1566040130881633342, guid: f70039fa6580d9842ae15b05eac6e034, type: 3}
     shopPreview: {fileID: 2800000, guid: 94181f4c44291db4cad843aaee73a2aa, type: 3}
     price: 15
   - skinName: Crown
-    skin: {fileID: 0}
+    skin: {fileID: 3188004381773320664, guid: d5fca3b7411eb534fbb4067133c3b0e0, type: 3}
     shopPreview: {fileID: 2800000, guid: d9c70931c8928e94bb7195ca941f50c5, type: 3}
     price: 20
   - skinName: Ear
-    skin: {fileID: 0}
+    skin: {fileID: 2397528653961610214, guid: 6157e3228904c49469f0efb694a5a8c1, type: 3}
     shopPreview: {fileID: 2800000, guid: afadb993ea8b306489ca023f8256fc64, type: 3}
     price: 25
   - skinName: Cap
-    skin: {fileID: 0}
+    skin: {fileID: 7317100140675399050, guid: 716b4c824f88806488757ed07e2646a8, type: 3}
     shopPreview: {fileID: 2800000, guid: 5b5c7d5ecf7a14746989e81d3babec4d, type: 3}
     price: 35
   - skinName: Police_Cap
-    skin: {fileID: 0}
+    skin: {fileID: 8022484695219399128, guid: 584d1d2d7f54fcd419d630fe208ee671, type: 3}
     shopPreview: {fileID: 2800000, guid: cb22435ad1e0562409d3237d7decf91d, type: 3}
     price: 45
   - skinName: Headphones
-    skin: {fileID: 0}
+    skin: {fileID: 2887326409233960819, guid: db7aaa1f7a01c004681d49799046404c, type: 3}
     shopPreview: {fileID: 2800000, guid: bf323236e6ddcde4f95ef4a5732ccf2e, type: 3}
     price: 55
   - skinName: Horn
-    skin: {fileID: 0}
+    skin: {fileID: 5718260487854682151, guid: 3b71533a79abfd744b34cea69ad21e41, type: 3}
     shopPreview: {fileID: 2800000, guid: 6e657ac4fcafe2242814e6e1a2914188, type: 3}
     price: 70
