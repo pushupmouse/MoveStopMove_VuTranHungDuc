@@ -138,17 +138,17 @@ public class SkinShopManager : Singleton<SkinShopManager>
     {
         if (isChoosingHat)
         {
-            EquipmentManager.Instance.EquipHat(hatIndex);
+            EquipmentManager.Instance.EquipHat(equippedHatIndex, hatIndex);
         }
 
         if (isChoosingPants)
         {
-            EquipmentManager.Instance.EquipPants(pantsIndex);
+            EquipmentManager.Instance.EquipPants(equippedPantsIndex, pantsIndex);
         }
 
         if (isChoosingShield)
         {
-            EquipmentManager.Instance.EquipShield(shieldIndex);
+            EquipmentManager.Instance.EquipShield(equippedShieldIndex, shieldIndex);
         }
 
         OnInit();
@@ -159,19 +159,19 @@ public class SkinShopManager : Singleton<SkinShopManager>
         if (isChoosingHat)
         {
             EquipmentManager.Instance.BuyHat(hatIndex);
-            EquipmentManager.Instance.EquipHat(hatIndex);
+            EquipmentManager.Instance.EquipHat(equippedHatIndex, hatIndex);
         }
 
         if (isChoosingPants)
         {
             EquipmentManager.Instance.BuyPants(pantsIndex);
-            EquipmentManager.Instance.EquipPants(pantsIndex);
+            EquipmentManager.Instance.EquipPants(equippedPantsIndex, pantsIndex);
         }
 
         if (isChoosingShield)
         {
             EquipmentManager.Instance.BuyShield(shieldIndex);
-            EquipmentManager.Instance.EquipShield(shieldIndex);
+            EquipmentManager.Instance.EquipShield(equippedShieldIndex, shieldIndex);
         }
 
         OnSkinPurchase?.Invoke();
@@ -182,23 +182,7 @@ public class SkinShopManager : Singleton<SkinShopManager>
     {
         int price = skin.skins[index].price;
 
-        if (GetAvailableSkin(skinType).Contains(index))
-        {
-            equipButton.gameObject.SetActive(true);
-            buyButton.gameObject.SetActive(false);
-
-            if (GetIndex(skinType) == GetEquippedIndex(skinType))
-            {
-                equipButton.interactable = false;
-                equipButtonText.SetText("EQUIPPED");
-            }
-            else
-            {
-                equipButton.interactable = true;
-                equipButtonText.SetText("EQUIP");
-            }
-        }
-        else
+        if (GetAvailableSkin(skinType)[index] == (int)OwnershipType.Unowned)
         {
             buyButton.gameObject.SetActive(true);
             equipButton.gameObject.SetActive(false);
@@ -215,6 +199,22 @@ public class SkinShopManager : Singleton<SkinShopManager>
             {
                 buyButton.interactable = false;
                 buyButtonText.color = Color.red;
+            }
+        }
+        else
+        {
+            equipButton.gameObject.SetActive(true);
+            buyButton.gameObject.SetActive(false);
+
+            if (GetAvailableSkin(skinType)[index] == (int)OwnershipType.Equipped)
+            {
+                equipButton.interactable = false;
+                equipButtonText.SetText("EQUIPPED");
+            }
+            else
+            {
+                equipButton.interactable = true;
+                equipButtonText.SetText("EQUIP");
             }
         }
     }
@@ -286,13 +286,13 @@ public class SkinShopManager : Singleton<SkinShopManager>
         switch (skinType) 
         {
             case SkinType.Hat:
-                availableSkin = GameManager.Instance.UserData.availableHats;
+                availableSkin = GameManager.Instance.UserData.ownershipHats;
                 break;
             case SkinType.Pants: 
-                availableSkin = GameManager.Instance.UserData.availablePants; 
+                availableSkin = GameManager.Instance.UserData.ownershipPants; 
                 break;
             case SkinType.Shield:
-                availableSkin = GameManager.Instance.UserData.availableShields;
+                availableSkin = GameManager.Instance.UserData.ownershipShields;
                 break;
             default:
                 availableSkin = null;

@@ -52,14 +52,14 @@ public class WeaponShopManager : Singleton<WeaponShopManager>
 
     private void OnEquipButtonClick()
     {
-        EquipmentManager.Instance.EquipWeapon((WeaponType)weaponIndex);
+        EquipmentManager.Instance.EquipWeapon(equippedWeaponIndex, (WeaponType)weaponIndex);
         OnInit();
     }
 
     private void OnBuyButtonClick()
     {
         EquipmentManager.Instance.BuyWeapon((WeaponType)weaponIndex);
-        EquipmentManager.Instance.EquipWeapon((WeaponType)weaponIndex);
+        EquipmentManager.Instance.EquipWeapon(equippedWeaponIndex, (WeaponType)weaponIndex);
         OnWeaponPurchase?.Invoke();
         OnInit();
     }
@@ -95,23 +95,7 @@ public class WeaponShopManager : Singleton<WeaponShopManager>
     {
         int price = weaponSO.GetWeaponByIndex(weaponIndex).price;
 
-        if (GameManager.Instance.UserData.availableWeapons.Contains(weaponIndex))
-        {
-            equipButton.gameObject.SetActive(true);
-            buyButton.gameObject.SetActive(false);
-
-            if (weaponIndex == equippedWeaponIndex)
-            {
-                equipButton.interactable = false;
-                equipButtonText.SetText("EQUIPPED");
-            }
-            else
-            {
-                equipButton.interactable = true;
-                equipButtonText.SetText("EQUIP");
-            }
-        }
-        else
+        if (GameManager.Instance.UserData.ownershipWeapons[weaponIndex] == (int)OwnershipType.Unowned)
         {
             buyButton.gameObject.SetActive(true);
             equipButton.gameObject.SetActive(false);
@@ -128,6 +112,22 @@ public class WeaponShopManager : Singleton<WeaponShopManager>
             {
                 buyButton.interactable = false;
                 buyButtonText.color = Color.red;
+            }
+        }
+        else
+        {
+            equipButton.gameObject.SetActive(true);
+            buyButton.gameObject.SetActive(false);
+
+            if (GameManager.Instance.UserData.ownershipWeapons[weaponIndex] == (int)OwnershipType.Equipped)
+            {
+                equipButton.interactable = false;
+                equipButtonText.SetText("EQUIPPED");
+            }
+            else
+            {
+                equipButton.interactable = true;
+                equipButtonText.SetText("EQUIP");
             }
         }
     }

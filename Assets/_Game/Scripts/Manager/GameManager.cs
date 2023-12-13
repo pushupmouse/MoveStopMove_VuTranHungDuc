@@ -7,6 +7,9 @@ using static GameManager;
 public class GameManager : Singleton<GameManager>
 {
     [SerializeField] private WeaponSO weaponSO;
+    [SerializeField] private SkinSO hatSO;
+    [SerializeField] private SkinSO pantsSO;
+    [SerializeField] private SkinSO shieldSO;
 
     private GameState gameState;
     private int coinsGained = 0;
@@ -60,7 +63,7 @@ public class GameManager : Singleton<GameManager>
         }
         else
         {
-            userData = new UserData();
+            userData = new UserData(weaponSO, hatSO, pantsSO, shieldSO);
             DataManager.Instance.SaveData(userData);
         }
     }
