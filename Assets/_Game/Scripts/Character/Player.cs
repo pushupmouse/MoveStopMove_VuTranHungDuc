@@ -17,13 +17,14 @@ public class Player : Character
 
     private void Awake()
     {
-        _transform = transform;
-        _camera.SetPlayerReference(_transform);
-        Level = 0;
+        
     }
 
     private void Start()
     {
+        _transform = transform;
+        _camera.SetPlayerReference(_transform);
+        Level = 0;
         Unsubscribe();
         Subscribe();
         ChangeWeapon((WeaponType)GameManager.Instance.UserData.equippedWeapon);

@@ -5,18 +5,32 @@ using UnityEngine;
 
 public class LevelManager : Singleton<LevelManager>
 {
-    private int botsToKill = 5;
+    [SerializeField] private LevelSO levelSO;
+    [SerializeField] private Player player;
+    [SerializeField] private CameraFollow _camera;
+    
+    private int botsToKill;
     private int coinPerKill = 1;
+    private Level currentLevel;
+    private int levelIndex;
     public Action OnGameStart;
     public Action OnGameVictory;
     public Action OnGameOver;
     public Action OnEnterMenu;
 
+    private void Start()
+    {
+        levelIndex = GameManager.Instance.userData.currentLevel;
+        
+        SpawnLevel();
+    }
+
     public void OnInit()
     {
         OnGameStart?.Invoke();
-        botsToKill = 5;
+        botsToKill = currentLevel.enemiesToKill;
         UIManager.Instance.toKillText.SetText(botsToKill.ToString());
+        _camera.OnInit();
         SpawnBots();
     }
 
@@ -63,5 +77,26 @@ public class LevelManager : Singleton<LevelManager>
     {
         OnGameOver?.Invoke();
         GameManager.Instance.ChangeState(GameManager.GameState.GameOver);
+    }
+
+    private void SpawnLevel()
+    {
+        Level[] levels = levelSO.levels;
+
+        if(currentLevel != null)
+        {
+            Destroy(currentLevel.gameObject);
+        }
+
+        currentLevel = Instantiate(levels[levelIndex % levelSO.levels.Length], Vector3.zero, Quaternion.identity);
+    }
+
+    public void NextLevel()
+    {
+        levelIndex++;
+
+        GameManager.Instance.ChangeLevel(levelIndex % levelSO.levels.Length);
+
+        SpawnLevel();
     }
 }

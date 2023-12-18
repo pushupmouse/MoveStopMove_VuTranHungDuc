@@ -49,7 +49,7 @@ public class EquipmentManager : Singleton<EquipmentManager>
         GameManager.Instance.userData.ownershipPants[index] = (int)OwnershipType.Equipped;
         if (previousPants != -1)
         {
-            GameManager.Instance.userData.ownershipHats[previousPants] = (int)OwnershipType.Owned;
+            GameManager.Instance.userData.ownershipPants[previousPants] = (int)OwnershipType.Owned;
         }
         DataManager.Instance.SaveData(GameManager.Instance.userData);
         OnPantsChanged?.Invoke();

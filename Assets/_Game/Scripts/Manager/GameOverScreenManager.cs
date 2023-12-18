@@ -11,14 +11,14 @@ public class GameOverScreenManager : Singleton<GameOverScreenManager>
     [SerializeField] private GameObject gameOverPanel;
     [SerializeField] private Button menuButton;
     [SerializeField] private Button playAgainButton;
+    [SerializeField] private Button nextLevelButton;
     [SerializeField] private TextMeshProUGUI gameOverText;
 
     private void Start()
     {
         Unsubscribe();
         Subscribe();
-        menuButton.onClick.AddListener(OnMenuButtonClick);
-        playAgainButton.onClick.AddListener(OnPlayAgainButtonClick);
+        AddListeners();
     }
 
     private void OnPlayAgainButtonClick()
@@ -27,6 +27,16 @@ public class GameOverScreenManager : Singleton<GameOverScreenManager>
         GameManager.Instance.ChangeState(GameManager.GameState.Gameplay);
         GameManager.Instance.SaveCoins();
         UIManager.Instance.SetCoin();
+        LevelManager.Instance.OnInit();
+    }
+
+    private void OnNextLevelButtonClick()
+    {
+        gameOverPanel.SetActive(false);
+        GameManager.Instance.ChangeState(GameManager.GameState.Gameplay);
+        GameManager.Instance.SaveCoins();
+        UIManager.Instance.SetCoin();
+        LevelManager.Instance.NextLevel();
         LevelManager.Instance.OnInit();
     }
 
@@ -43,12 +53,23 @@ public class GameOverScreenManager : Singleton<GameOverScreenManager>
     {
         gameOverPanel.SetActive(true);
         gameOverText.SetText("YOU WIN");
+        nextLevelButton.gameObject.SetActive(true);
+        playAgainButton.gameObject.SetActive(false);
     }
 
     private void ShowMenuDefeat()
     {
         gameOverPanel.SetActive(true);
         gameOverText.SetText("YOU LOSE");
+        playAgainButton.gameObject.SetActive(true);
+        nextLevelButton.gameObject.SetActive(false);
+    }
+
+    private void AddListeners()
+    {
+        menuButton.onClick.AddListener(OnMenuButtonClick);
+        playAgainButton.onClick.AddListener(OnPlayAgainButtonClick);
+        nextLevelButton.onClick.AddListener(OnNextLevelButtonClick);
     }
 
     private void Subscribe()

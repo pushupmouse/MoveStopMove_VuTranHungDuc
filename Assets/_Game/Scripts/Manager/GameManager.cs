@@ -68,7 +68,11 @@ public class GameManager : Singleton<GameManager>
         }
     }
 
-
+    public void ChangeLevel(int newLevel)
+    {
+        userData.currentLevel = newLevel;
+        DataManager.Instance.SaveData(userData);
+    }
 
     public void GainCoins(int amount)
     {

@@ -53,5 +53,11 @@ public class Bullet : MonoBehaviour
             attacker.OnKill();
             Deactivate();
         }
+        
+        if(other.gameObject.layer == 7)
+        {
+            Deactivate();
+        }
+
     }
 }

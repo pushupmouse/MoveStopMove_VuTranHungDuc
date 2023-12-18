@@ -7,6 +7,7 @@ using UnityEngine;
 public class UserData
 {
     public int coins;
+    public int currentLevel;
     public int equippedWeapon;
     public int equippedHat;
     public int equippedPants;
@@ -20,6 +21,7 @@ public class UserData
     public UserData(WeaponSO weaponSO, SkinSO hatSO, SkinSO pantsSO, SkinSO shieldSO)
     {
         coins = 0;
+        currentLevel = 0;
         equippedWeapon = 0;
         equippedHat = -1;
         equippedPants = -1;

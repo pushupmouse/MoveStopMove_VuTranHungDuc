@@ -7,15 +7,18 @@ public class CameraFollow : MonoBehaviour
 {
     [SerializeField] private float speed;
     [SerializeField] private Transform player;
+    [SerializeField] private Vector3 startPosition;
 
     private Transform _camera;
     private Vector3 offset;
     private float offsetValue = 0.1f;
 
-    private void Awake()
+
+    private void Start()
     {
         _camera = transform;
-        FindPlayer();
+        _camera.position = startPosition;
+        OnInit();
     }
 
     private void FixedUpdate()
@@ -33,8 +36,9 @@ public class CameraFollow : MonoBehaviour
         _camera.position = smoothedPosition;
     }
 
-    public void FindPlayer()
+    public void OnInit()
     {
+        _camera.position = startPosition;
         offset = _camera.position - player.position;
     }
 
