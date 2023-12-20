@@ -1,0 +1,120 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!687078895 &4343727234628468602
+SpriteAtlas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: UI Atlas
+  m_EditorData:
+    serializedVersion: 2
+    textureSettings:
+      serializedVersion: 2
+      anisoLevel: 1
+      compressionQuality: 50
+      maxTextureSize: 2048
+      textureCompression: 0
+      filterMode: 1
+      generateMipMaps: 0
+      readable: 0
+      crunchedCompression: 0
+      sRGB: 1
+    platformSettings:
+    - serializedVersion: 3
+      m_BuildTarget: Android
+      m_MaxTextureSize: 2048
+      m_ResizeAlgorithm: 0
+      m_TextureFormat: 50
+      m_TextureCompression: 1
+      m_CompressionQuality: 50
+      m_CrunchedCompression: 0
+      m_AllowsAlphaSplitting: 0
+      m_Overridden: 1
+      m_IgnorePlatformSupport: 0
+      m_AndroidETC2FallbackOverride: 0
+      m_ForceMaximumCompressionQuality_BC6H_BC7: 0
+    packingSettings:
+      serializedVersion: 2
+      padding: 4
+      blockOffset: 1
+      allowAlphaSplitting: 0
+      enableRotation: 1
+      enableTightPacking: 1
+      enableAlphaDilation: 0
+    secondaryTextureSettings: {}
+    variantMultiplier: 1
+    packables:
+    - {fileID: 102900000, guid: ad57b3ffd5e5e2d4da94e27f0ce62ec8, type: 3}
+    - {fileID: 102900000, guid: d26f44368fd358747a3f28cda7361346, type: 3}
+    - {fileID: 102900000, guid: b42ab109e08a38043a6cc8f499f7770e, type: 3}
+    bindAsDefault: 1
+    isAtlasV2: 0
+    cachedData: {fileID: 0}
+    packedSpriteRenderDataKeys:
+    - 824ab2d07bf68fc4d93f6b9b40fa14bb: 21300000
+    - d9c70931c8928e94bb7195ca941f50c5: 21300000
+    - a5d307d187878594289ba4b80ce222cd: 21300000
+    - 39fb08820201c5045b243526d0be13b4: 21300000
+    - de9ddba2ea0a5f747b67d3df66277d8f: 21300000
+    - afadb993ea8b306489ca023f8256fc64: 21300000
+    - 6e657ac4fcafe2242814e6e1a2914188: 21300000
+    - 350d28d5f0e124e478574494010b2001: 21300000
+    - 0db93626a57af5647af1ed05725f82b8: 21300000
+    - bf323236e6ddcde4f95ef4a5732ccf2e: 21300000
+    - d3d865a65d62da9429e5579ce7c6f451: 21300000
+    - fd4b34e7fdfdd41468b29de6ee79c63f: 21300000
+    - 5b89e9a892ca03a4c9ed4f0d346f5ce1: 21300000
+    - 7bfe5fe84305b77408d3d8df6702a613: 21300000
+    - cb22435ad1e0562409d3237d7decf91d: 21300000
+    - 94181f4c44291db4cad843aaee73a2aa: 21300000
+    - 5a1617ac722e69d409d8a47852a7550f: 21300000
+    - 65e4144e45d340f4daf4b63710bd0c2e: 21300000
+    - 5b5c7d5ecf7a14746989e81d3babec4d: 21300000
+    - 5344ec9f0d23e33448acd57323ad1897: 21300000
+  m_MasterAtlas: {fileID: 0}
+  m_PackedSprites:
+  - {fileID: 21300000, guid: 824ab2d07bf68fc4d93f6b9b40fa14bb, type: 3}
+  - {fileID: 21300000, guid: d9c70931c8928e94bb7195ca941f50c5, type: 3}
+  - {fileID: 21300000, guid: a5d307d187878594289ba4b80ce222cd, type: 3}
+  - {fileID: 21300000, guid: 39fb08820201c5045b243526d0be13b4, type: 3}
+  - {fileID: 21300000, guid: de9ddba2ea0a5f747b67d3df66277d8f, type: 3}
+  - {fileID: 21300000, guid: afadb993ea8b306489ca023f8256fc64, type: 3}
+  - {fileID: 21300000, guid: 6e657ac4fcafe2242814e6e1a2914188, type: 3}
+  - {fileID: 21300000, guid: 350d28d5f0e124e478574494010b2001, type: 3}
+  - {fileID: 21300000, guid: 0db93626a57af5647af1ed05725f82b8, type: 3}
+  - {fileID: 21300000, guid: bf323236e6ddcde4f95ef4a5732ccf2e, type: 3}
+  - {fileID: 21300000, guid: d3d865a65d62da9429e5579ce7c6f451, type: 3}
+  - {fileID: 21300000, guid: fd4b34e7fdfdd41468b29de6ee79c63f, type: 3}
+  - {fileID: 21300000, guid: 5b89e9a892ca03a4c9ed4f0d346f5ce1, type: 3}
+  - {fileID: 21300000, guid: 7bfe5fe84305b77408d3d8df6702a613, type: 3}
+  - {fileID: 21300000, guid: cb22435ad1e0562409d3237d7decf91d, type: 3}
+  - {fileID: 21300000, guid: 94181f4c44291db4cad843aaee73a2aa, type: 3}
+  - {fileID: 21300000, guid: 5a1617ac722e69d409d8a47852a7550f, type: 3}
+  - {fileID: 21300000, guid: 65e4144e45d340f4daf4b63710bd0c2e, type: 3}
+  - {fileID: 21300000, guid: 5b5c7d5ecf7a14746989e81d3babec4d, type: 3}
+  - {fileID: 21300000, guid: 5344ec9f0d23e33448acd57323ad1897, type: 3}
+  m_PackedSpriteNamesToIndex:
+  - Shield-removebg-preview
+  - Crown-removebg-preview
+  - Pant_7-removebg-preview
+  - Pant_4-removebg-preview
+  - Pant_8-removebg-preview
+  - Ear-removebg-preview
+  - Horn-removebg-preview
+  - Book-removebg-preview
+  - Pant_2-removebg-preview
+  - Headphone-removebg-preview
+  - Pant_3-removebg-preview
+  - Pant_9-removebg-preview
+  - Pant_5-removebg-preview
+  - Pant_1-removebg-preview
+  - PoliceCap-removebg-preview
+  - Cowboy-removebg-preview
+  - CaptainShield-removebg-preview
+  - Arrow-removebg-preview
+  - Cap-removebg-preview
+  - Pant_6-removebg-preview
+  m_RenderDataMap: {}
+  m_Tag: UI Atlas
+  m_IsVariant: 0

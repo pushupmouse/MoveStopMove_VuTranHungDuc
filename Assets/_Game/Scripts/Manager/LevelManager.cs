@@ -81,21 +81,21 @@ public class LevelManager : Singleton<LevelManager>
 
     private void SpawnLevel()
     {
-        Level[] levels = levelSO.levels;
+        List<Level> levels = levelSO.levels;
 
         if(currentLevel != null)
         {
             Destroy(currentLevel.gameObject);
         }
 
-        currentLevel = Instantiate(levels[levelIndex % levelSO.levels.Length], Vector3.zero, Quaternion.identity);
+        currentLevel = Instantiate(levels[levelIndex % levelSO.levels.Count], Vector3.zero, Quaternion.identity);
     }
 
     public void NextLevel()
     {
         levelIndex++;
 
-        GameManager.Instance.ChangeLevel(levelIndex % levelSO.levels.Length);
+        GameManager.Instance.ChangeLevel(levelIndex % levelSO.levels.Count);
 
         SpawnLevel();
     }

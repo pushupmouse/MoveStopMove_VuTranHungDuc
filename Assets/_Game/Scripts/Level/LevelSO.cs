@@ -5,5 +5,5 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "LevelData")]
 public class LevelSO : ScriptableObject
 {
-    public Level[] levels;
+    public List<Level> levels;
 }
